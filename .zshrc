@@ -84,8 +84,16 @@ plugins=(
   zsh-syntax-highlighting
 )
 
-# Override the highlight style
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#5f87ff,normal' 
+# Override the highlight style (grey like Neovim line numbers)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#7b8496'
+
+# Syntax highlighting colors (matching Neovim cyberdream)
+typeset -A ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[command]='fg=#5eff6c'           # valid command - green
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#5eff6c'           # builtin command - green
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#5eff6c'             # alias - green
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff6e5e'     # invalid command - red
+ZSH_HIGHLIGHT_STYLES[path]='fg=#5ea1ff,underline'    # valid path - blue
 
 source $ZSH/oh-my-zsh.sh
 
