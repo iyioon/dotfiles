@@ -142,7 +142,12 @@ unset __conda_setup
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 
 # fzf (fuzzy finder)
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -f ~/.fzf.zsh ]; then
+  source ~/.fzf.zsh
+elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  source /usr/share/doc/fzf/examples/completion.zsh
+fi
 
 # zoxide (smart cd)
 eval "$(zoxide init zsh --cmd cd)"
