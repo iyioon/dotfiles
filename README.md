@@ -8,11 +8,11 @@ Themed to match my Neovim config: [iyioon/nvim](https://github.com/iyioon/nvim) 
 
 | Color | Hex | Used For |
 |-------|-----|----------|
-| ![#5ea1ff](https://via.placeholder.com/12/5ea1ff/5ea1ff.png) Blue | `#5ea1ff` | Directory, time, environment |
-| ![#5eff6c](https://via.placeholder.com/12/5eff6c/5eff6c.png) Green | `#5eff6c` | Valid commands, git branch |
-| ![#ff5ef1](https://via.placeholder.com/12/ff5ef1/ff5ef1.png) Magenta | `#ff5ef1` | Prompt symbol, frame |
-| ![#ff6e5e](https://via.placeholder.com/12/ff6e5e/ff6e5e.png) Red | `#ff6e5e` | Invalid commands, errors |
-| ![#7b8496](https://via.placeholder.com/12/7b8496/7b8496.png) Grey | `#7b8496` | Autosuggestions |
+| ![Blue](https://img.shields.io/badge/Blue-5ea1ff?style=flat-square) | `#5ea1ff` | Directory, time, environment |
+| ![Green](https://img.shields.io/badge/Green-5eff6c?style=flat-square) | `#5eff6c` | Valid commands, git branch |
+| ![Magenta](https://img.shields.io/badge/Magenta-ff5ef1?style=flat-square) | `#ff5ef1` | Prompt symbol, frame |
+| ![Red](https://img.shields.io/badge/Red-ff6e5e?style=flat-square) | `#ff6e5e` | Invalid commands, errors |
+| ![Grey](https://img.shields.io/badge/Grey-7b8496?style=flat-square) | `#7b8496` | Autosuggestions |
 
 ## Installation
 
