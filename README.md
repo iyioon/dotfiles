@@ -9,9 +9,10 @@ Themed to match my Neovim config: [iyioon/nvim](https://github.com/iyioon/nvim) 
 | Color | Hex | Used For |
 |-------|-----|----------|
 | ![Blue](https://img.shields.io/badge/Blue-5ea1ff?style=flat-square) | `#5ea1ff` | Directory, time, environment |
+| ![Cyan](https://img.shields.io/badge/Cyan-5ef1ff?style=flat-square) | `#5ef1ff` | SSH context |
 | ![Green](https://img.shields.io/badge/Green-5eff6c?style=flat-square) | `#5eff6c` | Valid commands, git branch |
 | ![Magenta](https://img.shields.io/badge/Magenta-ff5ef1?style=flat-square) | `#ff5ef1` | Prompt symbol, frame |
-| ![Red](https://img.shields.io/badge/Red-ff6e5e?style=flat-square) | `#ff6e5e` | Invalid commands, errors |
+| ![Red](https://img.shields.io/badge/Red-ff6e5e?style=flat-square) | `#ff6e5e` | Invalid commands, errors, root |
 | ![Grey](https://img.shields.io/badge/Grey-7b8496?style=flat-square) | `#7b8496` | Autosuggestions |
 
 ## Installation
