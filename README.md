@@ -1,6 +1,6 @@
 # Dotfiles
 
-Zsh configuration with Oh My Zsh, Powerlevel10k, and productivity plugins.
+Zsh configuration with Oh My Zsh, Powerlevel10k (pink cyberdream theme), and productivity plugins.
 
 ## Installation
 
@@ -48,20 +48,21 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
 $(brew --prefix)/opt/fzf/install
 ```
 
-### 7. Link the config
+### 7. Link the configs
 ```bash
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
+ln -sf ~/dotfiles/.p10k.zsh ~/.p10k.zsh
 source ~/.zshrc
 ```
 
-Run `p10k configure` to set up your prompt.
+To customize the prompt yourself, run `p10k configure`.
 
 ## Plugin Usage
 
 | Plugin | What it does | Usage |
 |--------|--------------|-------|
 | **git** | Git aliases and completions | `gst` (status), `gco` (checkout), `gp` (push) |
-| **web-search** | Search from terminal | `google foo`, `ddg bar` |
+| **web-search** | Search from terminal | `google query`, `ddg query`, `youtube query` |
 | **zsh-autosuggestions** | Fish-like suggestions | Type, then `→` to accept |
 | **zsh-syntax-highlighting** | Command coloring | Valid commands = green, errors = red |
 | **fzf** | Fuzzy finder | `Ctrl-R` history, `Ctrl-T` files, `Alt-C` cd |
