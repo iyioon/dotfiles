@@ -97,6 +97,11 @@ ZSH_HIGHLIGHT_STYLES[path]='fg=#5ea1ff,underline'    # valid path - blue
 
 source $ZSH/oh-my-zsh.sh
 
+# Homebrew (Linuxbrew) - make brew available on Linux
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
