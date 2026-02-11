@@ -4,32 +4,37 @@ Zsh configuration with Oh My Zsh, Powerlevel10k, and productivity plugins.
 
 ## Installation
 
-### 1. Install dependencies
+### 1. Clone this repo
+```bash
+git clone https://github.com/iyioon/dotfiles.git ~/dotfiles
+```
 
-**macOS:**
+### 2. Install dependencies
+
+**macOS / Linux with Homebrew:**
 ```bash
 brew install zsh fzf zoxide atuin
 ```
 
-**Linux (Debian/Ubuntu):**
+**Linux (apt):**
 ```bash
 sudo apt install zsh fzf
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 ```
 
-### 2. Install Oh My Zsh
+### 3. Install Oh My Zsh
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-### 3. Install Powerlevel10k theme
+### 4. Install Powerlevel10k theme
 ```bash
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
   ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
-### 4. Install Zsh plugins
+### 5. Install Zsh plugins
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions \
   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -38,18 +43,14 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-### 5. Set up fzf key bindings
+### 6. Set up fzf key bindings
 ```bash
-# macOS
 $(brew --prefix)/opt/fzf/install
-
-# Linux (if installed via apt)
-# Key bindings are usually auto-configured
 ```
 
-### 6. Apply the config
+### 7. Link the config
 ```bash
-cp .zshrc ~/.zshrc
+ln -sf ~/dotfiles/.zshrc ~/.zshrc
 source ~/.zshrc
 ```
 
