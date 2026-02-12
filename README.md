@@ -77,6 +77,6 @@ To customize the prompt yourself, run `p10k configure`.
 | **web-search** | Search from terminal | `google query`, `ddg query`, `youtube query` |
 | **zsh-autosuggestions** | Fish-like suggestions | Type, then `→` to accept |
 | **zsh-syntax-highlighting** | Command coloring | Valid commands = green, errors = red |
-| **fzf** | Fuzzy finder | `Ctrl-R` history, `Ctrl-T` files, `Alt-C` cd |
+| **fzf** | Fuzzy finder | `Ctrl-T` files, `Alt-C` cd |
 | **zoxide** | Smart directory jumper | `cd foo` jumps to most-used match |
-| **atuin** | Enhanced history | `Ctrl-R` for searchable history with context |
+| **atuin** | Enhanced history | `Ctrl-R` searchable history with context, filters, optional sync |
