@@ -78,3 +78,15 @@ To customize the prompt yourself, run `p10k configure`.
 | **fzf** | Fuzzy finder | `Ctrl-T` files, `Alt-C` cd |
 | **zoxide** | Smart directory jumper | `cd foo` jumps to most-used match |
 | **atuin** | Enhanced history | `Ctrl-R` searchable history with context, filters, optional sync |
+
+## Optional: Set Zsh as Default Shell
+
+If you can change your default shell:
+```bash
+chsh -s $(which zsh)
+```
+
+If the server doesn't allow changing the default shell, add this to `~/.bashrc` to auto-launch zsh:
+```bash
+echo 'if [ -t 1 ] && command -v zsh >/dev/null 2>&1 && [ -z "$ZSH_VERSION" ]; then exec zsh -l; fi' >> ~/.bashrc
+```
