@@ -21,32 +21,30 @@ Themed to match my Neovim config: [iyioon/nvim](https://github.com/iyioon/nvim) 
 git clone https://github.com/iyioon/dotfiles.git ~/dotfiles
 ```
 
-### 2. Install dependencies
+### 2. Install Homebrew (if not installed)
 
-**macOS / Linux with Homebrew:**
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+### 3. Install dependencies
+
 ```bash
 brew install zsh fzf zoxide atuin
 ```
 
-**Linux (apt):**
-```bash
-sudo apt install zsh fzf
-curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-```
-
-### 3. Install Oh My Zsh
+### 4. Install Oh My Zsh
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-### 4. Install Powerlevel10k theme
+### 5. Install Powerlevel10k theme
 ```bash
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
   ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
-### 5. Install Zsh plugins
+### 6. Install Zsh plugins
 ```bash
 git clone https://github.com/zsh-users/zsh-autosuggestions \
   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -55,12 +53,12 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-### 6. Set up fzf key bindings
+### 7. Set up fzf key bindings
 ```bash
 $(brew --prefix)/opt/fzf/install
 ```
 
-### 7. Link the configs
+### 8. Link the configs
 ```bash
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.p10k.zsh ~/.p10k.zsh
