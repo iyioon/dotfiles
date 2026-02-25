@@ -83,6 +83,14 @@ To customize the prompt yourself, run `p10k configure`.
 | **atuin** | Enhanced history | `Ctrl-R` searchable history with context, filters, optional sync |
 | **navi** | Interactive cheatsheet | `Ctrl-G` command palette for browsing and executing commands |
 
+## Navi Cheatsheets
+
+Custom cheatsheets are stored in `navi/cheats/`. To add community cheatsheets:
+
+```bash
+navi repo add denisidoro/cheats
+```
+
 ## Optional: Set Zsh as Default Shell
 
 If you can change your default shell:
