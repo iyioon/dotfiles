@@ -30,7 +30,7 @@ git clone https://github.com/iyioon/dotfiles.git ~/dotfiles
 ### 3. Install dependencies
 
 ```bash
-brew install zsh fzf zoxide atuin
+brew install zsh fzf zoxide atuin navi
 ```
 
 ### 4. Install Oh My Zsh
@@ -62,6 +62,9 @@ $(brew --prefix)/opt/fzf/install
 ```bash
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.p10k.zsh ~/.p10k.zsh
+mkdir -p ~/.config/navi
+ln -sf ~/dotfiles/navi/config.yaml ~/.config/navi/config.yaml
+ln -sf ~/dotfiles/navi/cheats ~/.config/navi/cheats
 source ~/.zshrc
 ```
 
@@ -78,6 +81,7 @@ To customize the prompt yourself, run `p10k configure`.
 | **fzf** | Fuzzy finder | `Ctrl-T` files, `Alt-C` cd |
 | **zoxide** | Smart directory jumper | `cd foo` jumps to most-used match |
 | **atuin** | Enhanced history | `Ctrl-R` searchable history with context, filters, optional sync |
+| **navi** | Interactive cheatsheet | `Ctrl-G` command palette for browsing and executing commands |
 
 ## Optional: Set Zsh as Default Shell
 

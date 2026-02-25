@@ -1,0 +1,153 @@
+% tmux, session
+
+# Create a new session
+tmux new-session -s <session_name>
+
+# Create a new session with a named window
+tmux new-session -s <session_name> -n <window_name>
+
+# Attach to the most recent session
+tmux attach
+
+# Attach to a specific session
+tmux attach -t <session>
+
+# Attach or create session if it doesn't exist
+tmux new-session -As <session_name>
+
+# Detach from current session
+tmux detach
+
+# List all sessions
+tmux list-sessions
+
+# Kill a session
+tmux kill-session -t <session>
+
+# Kill all sessions except current
+tmux kill-session -a
+
+# Rename current session
+tmux rename-session <new_name>
+
+$ session: tmux list-sessions -F '#{session_name}' 2>/dev/null || echo "no-sessions"
+
+% tmux, window
+
+# Create a new window
+tmux new-window
+
+# Create a new window with a name
+tmux new-window -n <window_name>
+
+# Close current window
+tmux kill-window
+
+# Kill a specific window
+tmux kill-window -t <window>
+
+# Rename current window
+tmux rename-window <new_name>
+
+# Move to next window
+tmux next-window
+
+# Move to previous window
+tmux previous-window
+
+# Select a window by index
+tmux select-window -t <window_index>
+
+# List windows in current session
+tmux list-windows
+
+$ window: tmux list-windows -F '#{window_index}:#{window_name}' 2>/dev/null | head -1
+
+% tmux, pane
+
+# Split pane horizontally (side by side)
+tmux split-window -h
+
+# Split pane vertically (top and bottom)
+tmux split-window -v
+
+# Split pane horizontally with full width
+tmux split-window -fh
+
+# Split pane vertically with full height
+tmux split-window -fv
+
+# Close current pane
+tmux kill-pane
+
+# Move to the next pane
+tmux select-pane -t :.+
+
+# Move to pane on the left
+tmux select-pane -L
+
+# Move to pane on the right
+tmux select-pane -R
+
+# Move to pane above
+tmux select-pane -U
+
+# Move to pane below
+tmux select-pane -D
+
+# Zoom/unzoom current pane (toggle fullscreen)
+tmux resize-pane -Z
+
+# Resize pane left by 5 cells
+tmux resize-pane -L 5
+
+# Resize pane right by 5 cells
+tmux resize-pane -R 5
+
+# Resize pane up by 5 cells
+tmux resize-pane -U 5
+
+# Resize pane down by 5 cells
+tmux resize-pane -D 5
+
+# Swap current pane with the next one
+tmux swap-pane -D
+
+# Swap current pane with the previous one
+tmux swap-pane -U
+
+# Convert pane to a new window
+tmux break-pane
+
+# List panes in current window
+tmux list-panes
+
+% tmux, copy-mode
+
+# Enter copy mode (for scrolling/selecting)
+tmux copy-mode
+
+# Enter copy mode and scroll up one page
+tmux copy-mode -u
+
+# List all key bindings in copy mode
+tmux list-keys -T copy-mode
+
+% tmux, misc
+
+# Show tmux key bindings
+tmux list-keys
+
+# Reload tmux configuration
+tmux source-file ~/.tmux.conf
+
+# Display pane numbers
+tmux display-panes
+
+# Show clock in current pane
+tmux clock-mode
+
+# Send keys to a pane
+tmux send-keys -t <target_pane> "<keys>" Enter
+
+$ target_pane: tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null | head -1
