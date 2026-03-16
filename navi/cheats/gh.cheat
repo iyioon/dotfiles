@@ -1,0 +1,610 @@
+% gh, github-cli, help
+
+# Display GitHub CLI version
+gh --version
+
+# Show general help
+gh help
+
+# Show help for pull requests
+gh pr --help
+
+# Show help for issues
+gh issue --help
+
+# Show help for repositories
+gh repo --help
+
+# Show help for a specific command
+gh <command> <subcommand> --help
+
+$ command: echo -e "pr\nissue\nrepo\nauth\ngist\nrelease\nworkflow\nrun\nsearch"
+$ subcommand: echo -e "list\nview\ncreate\nstatus\ncheckout\nmerge\nclose\nedit"
+
+% gh, github-cli, auth
+
+# Login to GitHub (interactive)
+gh auth login
+
+# Login to GitHub Enterprise
+gh auth login --hostname <hostname>
+
+# Check authentication status
+gh auth status
+
+# Logout from GitHub
+gh auth logout
+
+# Refresh authentication (add scopes)
+gh auth refresh -s <scope>
+
+# Setup git to use GitHub CLI for authentication
+gh auth setup-git
+
+# Print the auth token
+gh auth token
+
+$ scope: echo -e "repo\nread:org\nworkflow\nproject\ngist\nuser"
+
+% gh, github-cli, pr
+
+# Show status of relevant pull requests
+gh pr status
+
+# List open pull requests
+gh pr list
+
+# List all pull requests (open, closed, merged)
+gh pr list --state all
+
+# List closed pull requests
+gh pr list --state closed
+
+# List merged pull requests
+gh pr list --state merged
+
+# List draft pull requests
+gh pr list --draft
+
+# List PRs authored by you
+gh pr list --author "@me"
+
+# List PRs with a specific label
+gh pr list --label "<label>"
+
+# List PRs assigned to you
+gh pr list --assignee "@me"
+
+# List PRs with a specific base branch
+gh pr list --base <branch>
+
+# View a pull request in terminal
+gh pr view <pr_number>
+
+# View a pull request in browser
+gh pr view <pr_number> --web
+
+# View current branch's pull request
+gh pr view
+
+# Checkout a pull request locally
+gh pr checkout <pr_number>
+
+# Create a pull request (interactive)
+gh pr create
+
+# Create a pull request with title and body
+gh pr create --title "<title>" --body "<body>"
+
+# Create a draft pull request
+gh pr create --draft --title "<title>" --body "<body>"
+
+# Create PR and fill title/body from commits
+gh pr create --fill
+
+# Create PR with reviewers
+gh pr create --title "<title>" --body "<body>" --reviewer <reviewers>
+
+# Create PR with labels
+gh pr create --title "<title>" --body "<body>" --label <labels>
+
+# Create PR with assignees
+gh pr create --title "<title>" --body "<body>" --assignee <assignees>
+
+# Create PR targeting a specific base branch
+gh pr create --base <branch> --title "<title>" --body "<body>"
+
+# Create PR in browser
+gh pr create --web
+
+# View PR diff
+gh pr diff <pr_number>
+
+# View PR checks/CI status
+gh pr checks <pr_number>
+
+# Merge a pull request
+gh pr merge <pr_number>
+
+# Merge PR with squash
+gh pr merge <pr_number> --squash
+
+# Merge PR with rebase
+gh pr merge <pr_number> --rebase
+
+# Merge PR and delete branch
+gh pr merge <pr_number> --delete-branch
+
+# Close a pull request
+gh pr close <pr_number>
+
+# Reopen a pull request
+gh pr reopen <pr_number>
+
+# Mark PR as ready for review
+gh pr ready <pr_number>
+
+# Edit a pull request
+gh pr edit <pr_number>
+
+# Add reviewers to a PR
+gh pr edit <pr_number> --add-reviewer <reviewers>
+
+# Add labels to a PR
+gh pr edit <pr_number> --add-label <labels>
+
+# Comment on a pull request
+gh pr comment <pr_number> --body "<comment>"
+
+# Review a pull request (approve)
+gh pr review <pr_number> --approve
+
+# Review a pull request (request changes)
+gh pr review <pr_number> --request-changes --body "<comment>"
+
+# Review a pull request (comment)
+gh pr review <pr_number> --comment --body "<comment>"
+
+$ pr_number: gh pr list --json number,title --jq '.[] | "\(.number)\t\(.title)"' 2>/dev/null | head -20 --- --preview 'gh pr view {1}'
+$ branch: git branch --format='%(refname:short)' 2>/dev/null
+$ reviewers: echo "@me"
+$ labels: gh label list --json name --jq '.[].name' 2>/dev/null | head -10
+$ assignees: echo "@me"
+
+% gh, github-cli, issue
+
+# Show status of relevant issues
+gh issue status
+
+# List open issues
+gh issue list
+
+# List all issues (open and closed)
+gh issue list --state all
+
+# List closed issues
+gh issue list --state closed
+
+# List issues assigned to you
+gh issue list --assignee "@me"
+
+# List issues authored by you
+gh issue list --author "@me"
+
+# List issues with a specific label
+gh issue list --label "<label>"
+
+# List issues in a milestone
+gh issue list --milestone "<milestone>"
+
+# Search issues with query
+gh issue list --search "<query>"
+
+# View an issue in terminal
+gh issue view <issue_number>
+
+# View an issue in browser
+gh issue view <issue_number> --web
+
+# Create an issue (interactive)
+gh issue create
+
+# Create an issue with title and body
+gh issue create --title "<title>" --body "<body>"
+
+# Create an issue with labels
+gh issue create --title "<title>" --body "<body>" --label <labels>
+
+# Create an issue with assignees
+gh issue create --title "<title>" --body "<body>" --assignee <assignees>
+
+# Create an issue in browser
+gh issue create --web
+
+# Create issue using a template
+gh issue create --template "<template_name>"
+
+# Close an issue
+gh issue close <issue_number>
+
+# Reopen an issue
+gh issue reopen <issue_number>
+
+# Edit an issue
+gh issue edit <issue_number>
+
+# Add labels to an issue
+gh issue edit <issue_number> --add-label <labels>
+
+# Add assignees to an issue
+gh issue edit <issue_number> --add-assignee <assignees>
+
+# Comment on an issue
+gh issue comment <issue_number> --body "<comment>"
+
+# Delete an issue
+gh issue delete <issue_number>
+
+# Pin an issue
+gh issue pin <issue_number>
+
+# Unpin an issue
+gh issue unpin <issue_number>
+
+# Transfer an issue to another repo
+gh issue transfer <issue_number> <destination_repo>
+
+# Create a branch for an issue
+gh issue develop <issue_number>
+
+$ issue_number: gh issue list --json number,title --jq '.[] | "\(.number)\t\(.title)"' 2>/dev/null | head -20 --- --preview 'gh issue view {1}'
+
+% gh, github-cli, repo
+
+# Clone a repository
+gh repo clone <repository>
+
+# Clone a repository to a specific directory
+gh repo clone <repository> <directory>
+
+# Create a new repository (interactive)
+gh repo create
+
+# Create a new public repository
+gh repo create <name> --public
+
+# Create a new private repository
+gh repo create <name> --private
+
+# Create repo from current directory
+gh repo create <name> --source=. --push
+
+# Create repo with description
+gh repo create <name> --description "<description>" --public
+
+# Fork a repository
+gh repo fork <repository>
+
+# Fork and clone a repository
+gh repo fork <repository> --clone
+
+# View repository in terminal
+gh repo view <repository>
+
+# View repository in browser
+gh repo view <repository> --web
+
+# View current repository
+gh repo view
+
+# List your repositories
+gh repo list
+
+# List repositories for an organization
+gh repo list <org>
+
+# List public repositories only
+gh repo list --visibility public
+
+# Rename a repository
+gh repo rename <new_name>
+
+# Delete a repository
+gh repo delete <repository> --yes
+
+# Archive a repository
+gh repo archive <repository>
+
+# Unarchive a repository
+gh repo unarchive <repository>
+
+# Sync a fork with upstream
+gh repo sync
+
+# Edit repository settings
+gh repo edit
+
+# Set repository as default
+gh repo set-default <repository>
+
+$ repository: echo "owner/repo"
+
+% gh, github-cli, gist
+
+# Create a gist from file
+gh gist create <file>
+
+# Create a public gist
+gh gist create <file> --public
+
+# Create a gist with description
+gh gist create <file> --desc "<description>"
+
+# Create a gist from stdin
+echo "<content>" | gh gist create
+
+# List your gists
+gh gist list
+
+# View a gist
+gh gist view <gist_id>
+
+# Edit a gist
+gh gist edit <gist_id>
+
+# Delete a gist
+gh gist delete <gist_id>
+
+# Clone a gist
+gh gist clone <gist_id>
+
+$ gist_id: gh gist list --json id,description --jq '.[] | "\(.id)\t\(.description)"' 2>/dev/null | head -10
+
+% gh, github-cli, release
+
+# List releases
+gh release list
+
+# View latest release
+gh release view
+
+# View a specific release
+gh release view <tag>
+
+# View release in browser
+gh release view <tag> --web
+
+# Create a release
+gh release create <tag>
+
+# Create a release with title and notes
+gh release create <tag> --title "<title>" --notes "<notes>"
+
+# Create a draft release
+gh release create <tag> --draft
+
+# Create a prerelease
+gh release create <tag> --prerelease
+
+# Create release and upload assets
+gh release create <tag> <files>
+
+# Download release assets
+gh release download <tag>
+
+# Download specific asset
+gh release download <tag> --pattern "<pattern>"
+
+# Delete a release
+gh release delete <tag>
+
+# Edit a release
+gh release edit <tag>
+
+# Upload assets to existing release
+gh release upload <tag> <files>
+
+$ tag: git tag --sort=-version:refname 2>/dev/null | head -10
+
+% gh, github-cli, workflow
+
+# List workflows
+gh workflow list
+
+# View a workflow
+gh workflow view <workflow>
+
+# Run a workflow
+gh workflow run <workflow>
+
+# Run a workflow with inputs
+gh workflow run <workflow> -f <key>=<value>
+
+# Enable a workflow
+gh workflow enable <workflow>
+
+# Disable a workflow
+gh workflow disable <workflow>
+
+$ workflow: gh workflow list --json name --jq '.[].name' 2>/dev/null
+
+% gh, github-cli, run
+
+# List workflow runs
+gh run list
+
+# List runs for a specific workflow
+gh run list --workflow <workflow>
+
+# View a workflow run
+gh run view <run_id>
+
+# View run in browser
+gh run view <run_id> --web
+
+# Watch a run in progress
+gh run watch <run_id>
+
+# Rerun a workflow
+gh run rerun <run_id>
+
+# Rerun only failed jobs
+gh run rerun <run_id> --failed
+
+# Cancel a workflow run
+gh run cancel <run_id>
+
+# Download run artifacts
+gh run download <run_id>
+
+# Delete a workflow run
+gh run delete <run_id>
+
+$ run_id: gh run list --json databaseId,displayTitle,status --jq '.[] | "\(.databaseId)\t\(.status)\t\(.displayTitle)"' 2>/dev/null | head -10
+
+% gh, github-cli, search
+
+# Search repositories
+gh search repos <query>
+
+# Search issues
+gh search issues <query>
+
+# Search pull requests
+gh search prs <query>
+
+# Search code
+gh search code <query>
+
+# Search commits
+gh search commits <query>
+
+# Search with language filter
+gh search repos <query> --language <language>
+
+# Search with stars filter
+gh search repos <query> --stars ">100"
+
+# Limit search results
+gh search repos <query> --limit <limit>
+
+$ language: echo -e "javascript\ntypescript\npython\ngo\nrust\njava"
+$ limit: echo "30"
+
+% gh, github-cli, browse
+
+# Open repo in browser
+gh browse
+
+# Open specific file in browser
+gh browse <file>
+
+# Open specific file at line
+gh browse <file>:<line>
+
+# Open issues page
+gh browse --issues
+
+# Open pull requests page
+gh browse --pulls
+
+# Open settings page
+gh browse --settings
+
+# Open wiki page
+gh browse --wiki
+
+# Open projects page
+gh browse --projects
+
+% gh, github-cli, api
+
+# Make a GET request to GitHub API
+gh api <endpoint>
+
+# Make a POST request
+gh api <endpoint> --method POST
+
+# Make request with JSON body
+gh api <endpoint> --method POST -f <field>=<value>
+
+# Get raw response
+gh api <endpoint> --jq '<jq_expression>'
+
+# Paginate through results
+gh api <endpoint> --paginate
+
+# Get user info
+gh api user
+
+# Get repo info
+gh api repos/<owner>/<repo>
+
+# List repo issues via API
+gh api repos/<owner>/<repo>/issues
+
+$ endpoint: echo "repos/{owner}/{repo}"
+$ jq_expression: echo "."
+
+% gh, github-cli, config
+
+# List all config values
+gh config list
+
+# Get a config value
+gh config get <key>
+
+# Set a config value
+gh config set <key> <value>
+
+# Set default editor
+gh config set editor <editor>
+
+# Set default git protocol
+gh config set git_protocol <protocol>
+
+# Clear config cache
+gh config clear-cache
+
+$ key: echo -e "editor\ngit_protocol\nbrowser\nprompt"
+$ editor: echo -e "vim\nnvim\ncode\nnano"
+$ protocol: echo -e "https\nssh"
+
+% gh, github-cli, alias
+
+# List aliases
+gh alias list
+
+# Set an alias
+gh alias set <alias> '<command>'
+
+# Delete an alias
+gh alias delete <alias>
+
+# Example: alias for my PRs
+gh alias set my-prs 'pr list --author "@me"'
+
+# Example: alias for my issues
+gh alias set my-issues 'issue list --assignee "@me"'
+
+% gh, github-cli, extension
+
+# List installed extensions
+gh extension list
+
+# Browse available extensions
+gh extension browse
+
+# Search for extensions
+gh extension search <query>
+
+# Install an extension
+gh extension install <repo>
+
+# Upgrade extensions
+gh extension upgrade --all
+
+# Remove an extension
+gh extension remove <extension>
+
+$ extension: gh extension list --json name --jq '.[].name' 2>/dev/null

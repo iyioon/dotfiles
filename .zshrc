@@ -109,12 +109,17 @@ fi
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+# Preferred editor (nvim > vim > vi)
+if command -v nvim &> /dev/null; then
+  export EDITOR=nvim
+  export VISUAL=nvim
+elif command -v vim &> /dev/null; then
+  export EDITOR=vim
+  export VISUAL=vim
+else
+  export EDITOR=vi
+  export VISUAL=vi
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"

@@ -30,7 +30,7 @@ git clone https://github.com/iyioon/dotfiles.git ~/dotfiles
 ### 3. Install dependencies
 
 ```bash
-brew install zsh fzf zoxide atuin navi
+brew install zsh fzf zoxide atuin navi ranger
 ```
 
 ### 4. Install Oh My Zsh
@@ -62,9 +62,13 @@ $(brew --prefix)/opt/fzf/install
 ```bash
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
 ln -sf ~/dotfiles/.p10k.zsh ~/.p10k.zsh
-mkdir -p ~/.config/navi
+mkdir -p ~/.config/navi ~/.config/ranger/colorschemes
 ln -sf ~/dotfiles/navi/config.yaml ~/.config/navi/config.yaml
 ln -sf ~/dotfiles/navi/cheats ~/.config/navi/cheats
+ln -sf ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
+ln -sf ~/dotfiles/ranger/rifle.conf ~/.config/ranger/rifle.conf
+ln -sf ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
+ln -sf ~/dotfiles/ranger/colorschemes/cyberdream.py ~/.config/ranger/colorschemes/cyberdream.py
 source ~/.zshrc
 ```
 
@@ -82,10 +86,19 @@ To customize the prompt yourself, run `p10k configure`.
 | **zoxide** | Smart directory jumper | `cd foo` jumps to most-used match |
 | **atuin** | Enhanced history | `Ctrl-R` searchable history with context, filters, optional sync |
 | **navi** | Interactive cheatsheet | `Ctrl-G` command palette for browsing and executing commands |
+| **ranger** | Terminal file manager | `ranger` to launch, VI keybindings, `q` to quit |
 
 ## Navi Cheatsheets
 
-Custom cheatsheets are stored in `navi/cheats/`. To add community cheatsheets:
+Custom cheatsheets are stored in `navi/cheats/`:
+
+| Cheatsheet | Description |
+|------------|-------------|
+| `tmux.cheat` | Sessions, windows, panes, copy-mode |
+| `ranger.cheat` | Navigation, file operations, bookmarks, sorting |
+| `gh.cheat` | GitHub CLI - PRs, issues, repos, releases, workflows |
+
+To add community cheatsheets:
 
 ```bash
 navi repo add denisidoro/cheats

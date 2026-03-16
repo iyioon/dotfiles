@@ -1,0 +1,121 @@
+% ranger, file-manager
+
+# Launch ranger file manager
+ranger
+
+# Launch ranger and select a specific file
+ranger --selectfile=<file_path>
+
+# Launch ranger in a specific directory
+ranger <directory>
+
+# Show ranger version
+ranger --version
+
+# Copy default config files to ~/.config/ranger
+ranger --copy-config=all
+
+% ranger, navigation
+
+# Navigation keys (inside ranger)
+# h        - move left (parent directory)
+# j        - move down
+# k        - move up
+# l        - move right (enter directory/open file)
+# gg       - go to top
+# G        - go to bottom
+# H        - go back in history
+# L        - go forward in history
+# ~        - go to home directory
+# gh       - go to home directory
+# gp       - go to /tmp
+# gr       - go to / (root)
+# gm       - go to /media
+# gM       - go to /mnt
+# gc       - go to ~/.config
+# ge       - go to /etc
+
+% ranger, file-operations
+
+# File operation keys (inside ranger)
+# yy       - yank (copy) file
+# dd       - cut file
+# pp       - paste file
+# dD       - delete file (confirm)
+# cw       - rename file
+# A        - rename file (append to end)
+# I        - rename file (insert at start)
+# a        - rename file (append before extension)
+# Space    - select/mark file
+# v        - invert selection
+# V        - visual mode
+# uv       - unselect all
+
+% ranger, tabs-bookmarks
+
+# Tab and bookmark keys (inside ranger)
+# gn       - create new tab
+# gt       - go to next tab
+# gT       - go to previous tab
+# gc       - close current tab
+# Tab      - switch to next tab
+# Shift+Tab - switch to previous tab
+# m<key>   - set bookmark
+# `<key>   - go to bookmark
+# um<key>  - unset bookmark
+
+% ranger, search-filter
+
+# Search and filter keys (inside ranger)
+# /        - search for files
+# n        - go to next search result
+# N        - go to previous search result
+# f        - find (quick search)
+# zf       - filter files
+
+% ranger, view-settings
+
+# View and settings keys (inside ranger)
+# zh       - toggle hidden files
+# zp       - toggle preview
+# zP       - toggle directory preview
+# zi       - toggle preview images
+# zv       - toggle use of vcs info
+# S        - open shell in current directory
+# !        - execute shell command
+# @        - execute command on selected files
+# :        - open console
+# ?        - open help/man page
+# R        - reload current directory
+# q        - quit ranger
+# Q        - quit ranger (all tabs)
+
+% ranger, sort
+
+# Sort keys (inside ranger)
+# or       - sort by random
+# os       - sort by size
+# ob       - sort by basename
+# on       - sort by natural (name)
+# om       - sort by mtime (modification time)
+# oc       - sort by ctime (change time)
+# oa       - sort by atime (access time)
+# ot       - sort by type (extension)
+# oe       - sort by extension
+
+% ranger, console-commands
+
+# Open console and create new directory
+# :mkdir <dirname>
+
+# Open console and touch new file
+# :touch <filename>
+
+# Open console and change permissions
+# :chmod <permissions>
+
+# Bulk rename selected files
+# :bulkrename
+
+# Open file with specific program
+# :open_with <program>
