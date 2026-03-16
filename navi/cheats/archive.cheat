@@ -1,0 +1,342 @@
+% tar, archive, basics
+
+# Create tar archive (no compression)
+tar -cvf <archive_name>.tar <source>
+
+# Extract tar archive
+tar -xvf <archive>
+
+# List contents of tar archive
+tar -tvf <archive>
+
+# Extract single file from archive
+tar -xvf <archive> <member_path>
+
+# Extract to specific directory
+tar -xvf <archive> -C <target_dir>
+
+$ archive: find . -maxdepth 3 -name '*.tar' -o -name '*.tar.*' -o -name '*.tgz' -o -name '*.tbz2' -o -name '*.txz' 2>/dev/null | head -20
+$ target_dir: find . -maxdepth 2 -type d 2>/dev/null | head -20
+
+% tar, gzip, compression
+
+# Create .tar.gz archive (gzip compressed)
+tar -czvf <archive_name>.tar.gz <source>
+
+# Extract .tar.gz archive
+tar -xzvf <targz_archive>
+
+# List contents of .tar.gz archive
+tar -tzvf <targz_archive>
+
+# Create .tgz archive (same as .tar.gz)
+tar -czvf <archive_name>.tgz <source>
+
+$ targz_archive: find . -maxdepth 3 \( -name '*.tar.gz' -o -name '*.tgz' \) 2>/dev/null | head -20
+
+% tar, bzip2, compression
+
+# Create .tar.bz2 archive (bzip2 compressed, better ratio)
+tar -cjvf <archive_name>.tar.bz2 <source>
+
+# Extract .tar.bz2 archive
+tar -xjvf <tarbz2_archive>
+
+# List contents of .tar.bz2 archive
+tar -tjvf <tarbz2_archive>
+
+# Create .tbz2 archive (same as .tar.bz2)
+tar -cjvf <archive_name>.tbz2 <source>
+
+$ tarbz2_archive: find . -maxdepth 3 \( -name '*.tar.bz2' -o -name '*.tbz2' \) 2>/dev/null | head -20
+
+% tar, xz, compression
+
+# Create .tar.xz archive (xz compressed, best ratio)
+tar -cJvf <archive_name>.tar.xz <source>
+
+# Extract .tar.xz archive
+tar -xJvf <tarxz_archive>
+
+# List contents of .tar.xz archive
+tar -tJvf <tarxz_archive>
+
+# Create .txz archive (same as .tar.xz)
+tar -cJvf <archive_name>.txz <source>
+
+$ tarxz_archive: find . -maxdepth 3 \( -name '*.tar.xz' -o -name '*.txz' \) 2>/dev/null | head -20
+
+% tar, zstd, compression
+
+# Create .tar.zst archive (zstd compressed, fast)
+tar --zstd -cvf <archive_name>.tar.zst <source>
+
+# Extract .tar.zst archive
+tar --zstd -xvf <tarzst_archive>
+
+# List contents of .tar.zst archive
+tar --zstd -tvf <tarzst_archive>
+
+# Create .tar.zst with compression level (1-19)
+tar -I 'zstd -<compression_level>' -cvf <archive_name>.tar.zst <source>
+
+$ tarzst_archive: find . -maxdepth 3 -name '*.tar.zst' 2>/dev/null | head -20
+$ compression_level: echo -e "3\n9\n15\n19"
+
+% tar, options, advanced
+
+# Create archive preserving permissions (default, explicit)
+tar -cvpf <archive_name>.tar <source>
+
+# Extract preserving permissions (run as root)
+sudo tar -xvpf <archive> -C <target_dir>
+
+# Create archive excluding patterns
+tar -cvf <archive_name>.tar --exclude='<exclude_pattern>' <source>
+
+# Create archive excluding multiple patterns
+tar -cvf <archive_name>.tar --exclude='*.log' --exclude='node_modules' --exclude='.git' <source>
+
+# Create archive excluding files from list
+tar -cvf <archive_name>.tar -X <exclude_file> <source>
+
+# Extract only files matching pattern
+tar -xvf <archive> --wildcards '<wildcard_pattern>'
+
+# Create archive following symlinks
+tar -cvhf <archive_name>.tar <source>
+
+# Create archive with absolute paths preserved
+tar -cvPf <archive_name>.tar <source>
+
+# Append files to existing archive (uncompressed only)
+tar -rvf <tar_only_archive> <source>
+
+# Update archive with newer files only
+tar -uvf <tar_only_archive> <source>
+
+# Compare archive contents with filesystem
+tar -dvf <archive>
+
+# Create archive with numeric owner IDs
+tar --numeric-owner -cvf <archive_name>.tar <source>
+
+$ tar_only_archive: find . -maxdepth 3 -name '*.tar' 2>/dev/null | head -20
+$ exclude_pattern: echo -e "*.log\n*.tmp\nnode_modules\n.git\n__pycache__\n*.pyc\n.DS_Store"
+$ wildcard_pattern: echo -e "*.txt\n*.conf\n*.sh"
+$ exclude_file: find . -maxdepth 2 -name '.tarexclude' -o -name '.gitignore' 2>/dev/null | head -5
+
+% tar, extract, directory
+
+# Extract .tar.gz to specific directory
+tar -xzvf <targz_archive> -C <target_dir>
+
+# Extract .tar.bz2 to specific directory
+tar -xjvf <tarbz2_archive> -C <target_dir>
+
+# Extract .tar.xz to specific directory
+tar -xJvf <tarxz_archive> -C <target_dir>
+
+# Extract and strip leading directory components
+tar -xvf <archive> --strip-components=<strip_num>
+
+# Extract without overwriting existing files
+tar -xvf <archive> -k
+
+# Extract overwriting existing files
+tar -xvf <archive> --overwrite
+
+$ strip_num: echo -e "1\n2\n3"
+
+% tar, autodetect
+
+# Extract any compressed tar (auto-detect compression)
+tar -xvf <any_archive>
+
+# List any compressed tar (auto-detect compression)
+tar -tvf <any_archive>
+
+$ any_archive: find . -maxdepth 3 \( -name '*.tar' -o -name '*.tar.*' -o -name '*.tgz' -o -name '*.tbz2' -o -name '*.txz' \) 2>/dev/null | head -20
+
+% zip, archive
+
+# Create zip archive
+zip -r <archive_name>.zip <source>
+
+# Create zip with compression level (0-9)
+zip -r -<zip_level> <archive_name>.zip <source>
+
+# Extract zip archive
+unzip <zip_archive>
+
+# Extract zip to specific directory
+unzip <zip_archive> -d <target_dir>
+
+# List contents of zip archive
+unzip -l <zip_archive>
+
+# Extract single file from zip
+unzip <zip_archive> <zip_member>
+
+# Test zip archive integrity
+unzip -t <zip_archive>
+
+# Create zip excluding patterns
+zip -r <archive_name>.zip <source> -x '<exclude_pattern>'
+
+# Create encrypted zip archive
+zip -er <archive_name>.zip <source>
+
+# Update existing zip with newer files
+zip -u <zip_archive> <source>
+
+$ zip_archive: find . -maxdepth 3 -name '*.zip' 2>/dev/null | head -20
+$ zip_level: echo -e "6\n9\n0\n1"
+
+% gzip, gunzip, single-file
+
+# Compress file with gzip (replaces original)
+gzip <file>
+
+# Compress file keeping original
+gzip -k <file>
+
+# Decompress gzip file
+gunzip <gzip_file>
+
+# Decompress keeping compressed file
+gunzip -k <gzip_file>
+
+# Compress with best compression
+gzip -9 <file>
+
+# Compress with fastest speed
+gzip -1 <file>
+
+# Decompress to stdout (view contents)
+zcat <gzip_file>
+
+# Test gzip file integrity
+gzip -t <gzip_file>
+
+# List gzip file information
+gzip -l <gzip_file>
+
+$ gzip_file: find . -maxdepth 3 -name '*.gz' ! -name '*.tar.gz' 2>/dev/null | head -20
+
+% bzip2, single-file
+
+# Compress file with bzip2 (replaces original)
+bzip2 <file>
+
+# Compress file keeping original
+bzip2 -k <file>
+
+# Decompress bzip2 file
+bunzip2 <bzip2_file>
+
+# Decompress keeping compressed file
+bunzip2 -k <bzip2_file>
+
+# Compress with best compression
+bzip2 -9 <file>
+
+# Decompress to stdout (view contents)
+bzcat <bzip2_file>
+
+# Test bzip2 file integrity
+bzip2 -t <bzip2_file>
+
+$ bzip2_file: find . -maxdepth 3 -name '*.bz2' ! -name '*.tar.bz2' 2>/dev/null | head -20
+
+% xz, single-file
+
+# Compress file with xz (replaces original)
+xz <file>
+
+# Compress file keeping original
+xz -k <file>
+
+# Decompress xz file
+unxz <xz_file>
+
+# Decompress keeping compressed file
+unxz -k <xz_file>
+
+# Compress with best compression (slow)
+xz -9 <file>
+
+# Compress with extreme preset
+xz -9e <file>
+
+# Decompress to stdout (view contents)
+xzcat <xz_file>
+
+# Test xz file integrity
+xz -t <xz_file>
+
+# List xz file information
+xz -l <xz_file>
+
+$ xz_file: find . -maxdepth 3 -name '*.xz' ! -name '*.tar.xz' 2>/dev/null | head -20
+
+% zstd, single-file
+
+# Compress file with zstd
+zstd <file>
+
+# Compress file keeping original (default behavior)
+zstd -k <file>
+
+# Decompress zstd file
+unzstd <zstd_file>
+
+# Compress with level (1-19, default 3)
+zstd -<zstd_level> <file>
+
+# Compress with ultra level (20-22)
+zstd --ultra -<ultra_level> <file>
+
+# Decompress to stdout (view contents)
+zstdcat <zstd_file>
+
+# Test zstd file integrity
+zstd -t <zstd_file>
+
+# List zstd file information
+zstd -l <zstd_file>
+
+$ zstd_file: find . -maxdepth 3 -name '*.zst' ! -name '*.tar.zst' 2>/dev/null | head -20
+$ zstd_level: echo -e "3\n9\n15\n19"
+$ ultra_level: echo -e "20\n21\n22"
+
+% 7z, archive
+
+# Create 7z archive
+7z a <archive_name>.7z <source>
+
+# Extract 7z archive
+7z x <sevenz_archive>
+
+# Extract 7z to specific directory
+7z x <sevenz_archive> -o<target_dir>
+
+# List contents of 7z archive
+7z l <sevenz_archive>
+
+# Test 7z archive integrity
+7z t <sevenz_archive>
+
+# Extract single file from 7z
+7z x <sevenz_archive> <sevenz_member>
+
+# Create encrypted 7z archive
+7z a -p <archive_name>.7z <source>
+
+# Create 7z with maximum compression
+7z a -mx=9 <archive_name>.7z <source>
+
+# Update 7z archive
+7z u <sevenz_archive> <source>
+
+$ sevenz_archive: find . -maxdepth 3 -name '*.7z' 2>/dev/null | head -20

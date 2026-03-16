@@ -1,0 +1,429 @@
+% brew, homebrew, package, install
+
+# Install a formula
+brew install <formula_name>
+
+# Install a formula without upgrading if already installed
+brew install --skip-installed <formula_name>
+
+# Install from source instead of bottle
+brew install --build-from-source <formula_name>
+
+# Install and include test dependencies
+brew install --include-test <formula_name>
+
+# Install HEAD version (latest commit)
+brew install --HEAD <formula_name>
+
+# Install only dependencies of a formula
+brew install --only-dependencies <formula_name>
+
+# Reinstall a formula
+brew reinstall <formula>
+
+# Reinstall from source
+brew reinstall --build-from-source <formula>
+
+# Uninstall a formula
+brew uninstall <formula>
+
+# Uninstall and remove all versions
+brew uninstall --force <formula>
+
+# Uninstall ignoring dependencies
+brew uninstall --ignore-dependencies <formula>
+
+$ formula_name: echo ""
+$ formula: brew list --formula 2>/dev/null
+
+% brew, homebrew, search, info
+
+# Search for a formula or cask
+brew search <text>
+
+# Search using regex
+brew search /<regex>/
+
+# Search only formulae
+brew search --formula <text>
+
+# Search only casks
+brew search --cask <text>
+
+# Search with descriptions
+brew search --desc <text>
+
+# Show formula information
+brew info <formula>
+
+# Show formula info as JSON
+brew info --json=v2 <formula>
+
+# Show formula homepage in browser
+brew home <formula>
+
+# Show formula source repository
+brew source <formula>
+
+# List all installed formulae
+brew list --formula
+
+# List installed formulae with versions
+brew list --versions
+
+# List only formulae installed on request
+brew list --installed-on-request
+
+# List only formulae installed as dependencies
+brew list --installed-as-dependency
+
+# Show formula dependencies
+brew deps <formula>
+
+# Show dependencies as a tree
+brew deps --tree <formula>
+
+# Show installed dependencies only
+brew deps --installed <formula>
+
+# Show which formulae use a given formula
+brew uses <formula>
+
+# Show installed formulae that use a formula
+brew uses --installed <formula>
+
+# Show leaves (formulae not depended on)
+brew leaves
+
+$ formula: brew list --formula 2>/dev/null
+
+% brew, homebrew, update, upgrade, maintenance
+
+# Update Homebrew and formulae definitions
+brew update
+
+# Show what would be upgraded
+brew outdated
+
+# Show outdated with version info
+brew outdated --verbose
+
+# Upgrade all outdated formulae
+brew upgrade
+
+# Upgrade a specific formula
+brew upgrade <formula>
+
+# Upgrade with verbose output
+brew upgrade --verbose
+
+# Upgrade and show timing info
+brew upgrade --display-times
+
+# Dry run upgrade (show what would happen)
+brew upgrade --dry-run
+
+# Remove old versions and cleanup cache
+brew cleanup
+
+# Show what cleanup would remove
+brew cleanup --dry-run
+
+# Remove all cache files
+brew cleanup --prune=all
+
+# Remove only downloads older than N days
+brew cleanup --prune=<days>
+
+# Remove unused dependencies
+brew autoremove
+
+# Show what autoremove would remove
+brew autoremove --dry-run
+
+# Link a formula (create symlinks)
+brew link <formula>
+
+# Unlink a formula (remove symlinks)
+brew unlink <formula>
+
+# Force link a keg-only formula
+brew link --force <formula>
+
+$ formula: brew list --formula 2>/dev/null
+$ days: echo "30"
+
+% brew, homebrew, cask, gui, apps
+
+# Install a cask (GUI application)
+brew install --cask <cask_name>
+
+# Install cask and adopt existing files
+brew install --cask --adopt <cask_name>
+
+# Reinstall a cask
+brew reinstall --cask <cask>
+
+# Reinstall cask and remove all files
+brew reinstall --cask --zap <cask>
+
+# Uninstall a cask
+brew uninstall --cask <cask>
+
+# Uninstall cask and remove all files
+brew uninstall --cask --zap <cask>
+
+# List installed casks
+brew list --cask
+
+# Show cask information
+brew info --cask <cask>
+
+# Search for casks
+brew search --cask <text>
+
+# Show outdated casks
+brew outdated --cask
+
+# Upgrade all casks
+brew upgrade --cask
+
+# Upgrade cask including auto-update apps
+brew upgrade --cask --greedy
+
+# Upgrade a specific cask
+brew upgrade --cask <cask>
+
+$ cask_name: echo ""
+$ cask: brew list --cask 2>/dev/null
+
+% brew, homebrew, services
+
+# List all services
+brew services list
+
+# List services as JSON
+brew services list --json
+
+# Show info for a service
+brew services info <service>
+
+# Start a service
+brew services start <service>
+
+# Stop a service
+brew services stop <service>
+
+# Restart a service
+brew services restart <service>
+
+# Run service once (don't register for login)
+brew services run <service>
+
+# Stop service but keep registered
+brew services kill <service>
+
+# Start all services
+brew services start --all
+
+# Stop all services
+brew services stop --all
+
+# Restart all services
+brew services restart --all
+
+# Cleanup unused services
+brew services cleanup
+
+$ service: brew services list --json 2>/dev/null | jq -r '.[].name' 2>/dev/null || brew services list 2>/dev/null | tail -n +2 | awk '{print $1}'
+
+% brew, homebrew, tap, repository
+
+# List installed taps
+brew tap
+
+# Add a tap
+brew tap <user>/<repo>
+
+# Add a tap with custom URL
+brew tap <user>/<repo> <url>
+
+# Remove a tap
+brew untap <tap>
+
+# Force remove a tap (even with installed formulae)
+brew untap --force <tap>
+
+# Show tap information
+brew tap-info <tap>
+
+# Show tap info as JSON
+brew tap-info --json <tap>
+
+# Show info for all installed taps
+brew tap-info --installed
+
+# Repair tap symlinks
+brew tap --repair
+
+$ tap: brew tap 2>/dev/null
+$ user: echo "homebrew"
+$ repo: echo "cask"
+
+% brew, homebrew, troubleshooting, debug
+
+# Check for potential problems
+brew doctor
+
+# List all doctor checks
+brew doctor --list-checks
+
+# Show Homebrew configuration
+brew config
+
+# Show Homebrew prefix path
+brew --prefix
+
+# Show Homebrew cellar path
+brew --cellar
+
+# Show Homebrew cache path
+brew --cache
+
+# Show Homebrew repository path
+brew --repo
+
+# Run command with debug output
+brew <command> --debug
+
+# Run command with verbose output
+brew <command> --verbose
+
+# Check formula for issues
+brew audit <formula>
+
+# Fetch bottle/source without installing
+brew fetch <formula>
+
+# Show formula linkage
+brew linkage <formula>
+
+# Check for missing dependencies
+brew missing
+
+# Reinstall all formulae
+brew list --formula | xargs brew reinstall
+
+$ formula: brew list --formula 2>/dev/null
+$ command: echo -e "install\nuninstall\nupgrade\ninfo"
+
+% brew, homebrew, pin, version
+
+# Pin a formula (prevent upgrades)
+brew pin <formula>
+
+# Unpin a formula
+brew unpin <formula>
+
+# List pinned formulae
+brew list --pinned
+
+# Show installed versions of a formula
+brew list --versions <formula>
+
+# Switch between installed versions
+brew switch <formula> <version>
+
+# Install specific version from tap
+brew install <tap>/<formula>@<version>
+
+$ formula: brew list --formula 2>/dev/null
+$ pinned_formula: brew list --pinned 2>/dev/null
+
+% brew, homebrew, bundle, brewfile
+
+# Install from Brewfile
+brew bundle
+
+# Install from specific Brewfile
+brew bundle --file=<path>
+
+# Install from global Brewfile
+brew bundle --global
+
+# Dump installed packages to Brewfile
+brew bundle dump
+
+# Dump with descriptions
+brew bundle dump --describe
+
+# Overwrite existing Brewfile
+brew bundle dump --force
+
+# Check if Brewfile deps are installed
+brew bundle check
+
+# List packages from Brewfile
+brew bundle list
+
+# Cleanup packages not in Brewfile
+brew bundle cleanup
+
+# Execute cleanup (actually remove)
+brew bundle cleanup --force
+
+$ path: echo "Brewfile"
+
+% brew, homebrew, developer, advanced
+
+# Edit a formula
+brew edit <formula>
+
+# Create a new formula
+brew create <url>
+
+# Test a formula
+brew test <formula>
+
+# Install formula in interactive mode
+brew install --interactive <formula>
+
+# Build a bottle
+brew install --build-bottle <formula>
+
+# Show formula's install receipt
+brew info --json=v2 <formula> | jq '.formulae[0].installed'
+
+# Unpack formula source
+brew unpack <formula>
+
+# Show formula file location
+brew formula <formula>
+
+# Run post-install script
+brew postinstall <formula>
+
+# Show all available commands
+brew commands
+
+# Open Homebrew documentation
+brew docs
+
+# Generate shell completions
+brew completions link
+
+$ formula: brew list --formula 2>/dev/null
+
+% brew, homebrew, analytics, privacy
+
+# Show analytics state
+brew analytics
+
+# Disable analytics
+brew analytics off
+
+# Enable analytics
+brew analytics on
+
+# Regenerate analytics UUID
+brew analytics regenerate-uuid

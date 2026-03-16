@@ -1,0 +1,643 @@
+% docker, container, lifecycle
+
+# Run a container from an image (interactive with TTY)
+docker run -it <image> <shell>
+
+# Run a container in detached mode (background)
+docker run -d --name <container_name> <image>
+
+# Run a container with port mapping
+docker run -d -p <host_port>:<container_port> <image>
+
+# Run a container with volume mount
+docker run -d -v <host_path>:<container_path> <image>
+
+# Run a container with environment variables
+docker run -d -e <env_var>=<value> <image>
+
+# Run a container with environment file
+docker run -d --env-file <env_file> <image>
+
+# Run a container with restart policy
+docker run -d --restart <restart_policy> <image>
+
+# Run a container with memory limit
+docker run -d -m <memory_limit> <image>
+
+# Run a container with CPU limit
+docker run -d --cpus <cpu_limit> <image>
+
+# Run a container and remove it after exit
+docker run --rm <image> <command>
+
+# Run a container with a specific network
+docker run -d --network <network> <image>
+
+# Start a stopped container
+docker start <container>
+
+# Stop a running container
+docker stop <container>
+
+# Stop a container with timeout (seconds)
+docker stop -t <timeout> <container>
+
+# Restart a container
+docker restart <container>
+
+# Remove a stopped container
+docker rm <container>
+
+# Force remove a running container
+docker rm -f <container>
+
+# Remove all stopped containers
+docker container prune -f
+
+# Kill a running container
+docker kill <container>
+
+# Kill container with specific signal
+docker kill -s <signal> <container>
+
+# Pause a running container
+docker pause <container>
+
+# Unpause a paused container
+docker unpause <container>
+
+# Rename a container
+docker rename <container> <new_name>
+
+# Update container configuration (restart policy)
+docker update --restart <restart_policy> <container>
+
+# Wait for container to stop and print exit code
+docker wait <container>
+
+$ container: docker ps -a --format '{{.Names}}\t{{.Status}}' 2>/dev/null --- --preview 'docker inspect {1}'
+$ image: docker images --format '{{.Repository}}:{{.Tag}}\t{{.Size}}' 2>/dev/null | grep -v '<none>'
+$ shell: echo -e "/bin/bash\n/bin/sh\nsh\nbash"
+$ restart_policy: echo -e "no\non-failure\non-failure:3\nalways\nunless-stopped"
+$ signal: echo -e "SIGTERM\nSIGKILL\nSIGHUP\nSIGINT\nSIGUSR1"
+$ network: docker network ls --format '{{.Name}}' 2>/dev/null
+
+% docker, container, inspection
+
+# List running containers
+docker ps
+
+# List all containers (including stopped)
+docker ps -a
+
+# List containers with custom format
+docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+# List container IDs only
+docker ps -q
+
+# List all container IDs (including stopped)
+docker ps -aq
+
+# Show container logs
+docker logs <container>
+
+# Follow container logs (live)
+docker logs -f <container>
+
+# Show last N lines of logs
+docker logs --tail <lines> <container>
+
+# Show logs with timestamps
+docker logs -t <container>
+
+# Show logs since a specific time
+docker logs --since <time> <container>
+
+# Inspect container details (JSON)
+docker inspect <container>
+
+# Inspect container with format
+docker inspect --format '{{.State.Status}}' <container>
+
+# Get container IP address
+docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container>
+
+# Show running processes in container
+docker top <container>
+
+# Show container resource usage statistics
+docker stats <container>
+
+# Show stats for all containers
+docker stats
+
+# Show stats without streaming
+docker stats --no-stream
+
+# Show container port mappings
+docker port <container>
+
+# Show filesystem changes in container
+docker diff <container>
+
+$ container: docker ps -a --format '{{.Names}}\t{{.Status}}' 2>/dev/null --- --preview 'docker logs --tail 20 {1}'
+$ lines: echo -e "10\n50\n100\n500\n1000"
+$ time: echo -e "1h\n30m\n10m\n1m"
+
+% docker, container, interaction
+
+# Execute command in running container
+docker exec <container> <command>
+
+# Execute interactive shell in container
+docker exec -it <container> <shell>
+
+# Execute command as specific user
+docker exec -u <user> <container> <command>
+
+# Execute command with environment variable
+docker exec -e <env_var>=<value> <container> <command>
+
+# Execute command in specific working directory
+docker exec -w <workdir> <container> <command>
+
+# Attach to running container
+docker attach <container>
+
+# Copy file from container to host
+docker cp <container>:<container_path> <host_path>
+
+# Copy file from host to container
+docker cp <host_path> <container>:<container_path>
+
+# Export container filesystem as tar archive
+docker export <container> > <output_file>
+
+# Create image from container changes
+docker commit <container> <new_image_name>
+
+# Create image with commit message
+docker commit -m "<message>" <container> <new_image_name>
+
+$ container: docker ps --format '{{.Names}}\t{{.Status}}' 2>/dev/null --- --preview 'docker inspect {1}'
+$ shell: echo -e "/bin/bash\n/bin/sh\nsh\nbash"
+$ user: echo -e "root\n0\n1000"
+
+% docker, image, management
+
+# Pull an image from registry
+docker pull <image_name>
+
+# Pull specific tag
+docker pull <image_name>:<tag>
+
+# Push image to registry
+docker push <image_name>
+
+# Build image from Dockerfile
+docker build -t <image_name> <build_context>
+
+# Build image with specific Dockerfile
+docker build -t <image_name> -f <dockerfile> <build_context>
+
+# Build image without cache
+docker build --no-cache -t <image_name> <build_context>
+
+# Build image with build arguments
+docker build --build-arg <arg>=<value> -t <image_name> <build_context>
+
+# Build image for specific platform
+docker build --platform <platform> -t <image_name> <build_context>
+
+# Tag an image
+docker tag <source_image> <target_image>
+
+# Remove an image
+docker rmi <image>
+
+# Force remove an image
+docker rmi -f <image>
+
+# Remove all unused images
+docker image prune -f
+
+# Remove all images (including unused)
+docker image prune -a -f
+
+# List images
+docker images
+
+# List images with filter
+docker images --filter "dangling=true"
+
+# List image IDs only
+docker images -q
+
+# Show image history/layers
+docker history <image>
+
+# Inspect image details
+docker inspect <image>
+
+# Save image to tar archive
+docker save -o <output_file> <image>
+
+# Load image from tar archive
+docker load -i <input_file>
+
+# Search Docker Hub for images
+docker search <term>
+
+# Search with filter (official images)
+docker search --filter "is-official=true" <term>
+
+$ image: docker images --format '{{.Repository}}:{{.Tag}}\t{{.Size}}' 2>/dev/null | grep -v '<none>'
+$ source_image: docker images --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | grep -v '<none>'
+$ build_context: echo -e ".\n./docker\n.."
+$ platform: echo -e "linux/amd64\nlinux/arm64\nlinux/arm/v7"
+$ tag: echo -e "latest\nstable\nalpine"
+
+% docker, volume, management
+
+# Create a volume
+docker volume create <volume_name>
+
+# Create volume with driver options
+docker volume create --driver <driver> <volume_name>
+
+# List volumes
+docker volume ls
+
+# List volumes with filter
+docker volume ls --filter "dangling=true"
+
+# Inspect volume details
+docker volume inspect <volume>
+
+# Remove a volume
+docker volume rm <volume>
+
+# Remove multiple volumes
+docker volume rm <volumes>
+
+# Remove all unused volumes
+docker volume prune -f
+
+# Remove all unused volumes (including named)
+docker volume prune -a -f
+
+$ volume: docker volume ls --format '{{.Name}}' 2>/dev/null --- --preview 'docker volume inspect {1}'
+$ volumes: docker volume ls --format '{{.Name}}' 2>/dev/null
+$ driver: echo -e "local\nnfs"
+
+% docker, network, management
+
+# Create a network
+docker network create <network_name>
+
+# Create bridge network
+docker network create --driver bridge <network_name>
+
+# Create network with subnet
+docker network create --subnet <subnet> <network_name>
+
+# Create network with gateway
+docker network create --subnet <subnet> --gateway <gateway> <network_name>
+
+# List networks
+docker network ls
+
+# List networks with filter
+docker network ls --filter "driver=bridge"
+
+# Inspect network details
+docker network inspect <network>
+
+# Remove a network
+docker network rm <network>
+
+# Remove all unused networks
+docker network prune -f
+
+# Connect container to network
+docker network connect <network> <container>
+
+# Connect container with specific IP
+docker network connect --ip <ip_address> <network> <container>
+
+# Connect container with alias
+docker network connect --alias <alias> <network> <container>
+
+# Disconnect container from network
+docker network disconnect <network> <container>
+
+# Force disconnect container from network
+docker network disconnect -f <network> <container>
+
+$ network: docker network ls --format '{{.Name}}' 2>/dev/null --- --preview 'docker network inspect {1}'
+$ container: docker ps --format '{{.Names}}' 2>/dev/null
+$ subnet: echo -e "172.20.0.0/16\n192.168.0.0/24\n10.0.0.0/8"
+
+% docker, compose
+
+# Start services (detached)
+docker compose up -d
+
+# Start services with build
+docker compose up -d --build
+
+# Start specific service
+docker compose up -d <service>
+
+# Start services with scaling
+docker compose up -d --scale <service>=<replicas>
+
+# Start services and force recreate
+docker compose up -d --force-recreate
+
+# Start services with specific compose file
+docker compose -f <compose_file> up -d
+
+# Stop and remove containers, networks
+docker compose down
+
+# Stop and remove including volumes
+docker compose down -v
+
+# Stop and remove including images
+docker compose down --rmi all
+
+# View service logs
+docker compose logs
+
+# Follow service logs
+docker compose logs -f
+
+# View logs for specific service
+docker compose logs <service>
+
+# View logs with timestamps
+docker compose logs -t <service>
+
+# List containers
+docker compose ps
+
+# List all containers (including stopped)
+docker compose ps -a
+
+# Build services
+docker compose build
+
+# Build specific service
+docker compose build <service>
+
+# Build without cache
+docker compose build --no-cache
+
+# Execute command in service container
+docker compose exec <service> <command>
+
+# Execute interactive shell in service
+docker compose exec <service> <shell>
+
+# Run one-off command in service
+docker compose run --rm <service> <command>
+
+# Pull service images
+docker compose pull
+
+# Push service images
+docker compose push
+
+# Start services
+docker compose start
+
+# Stop services
+docker compose stop
+
+# Restart services
+docker compose restart
+
+# Restart specific service
+docker compose restart <service>
+
+# Pause services
+docker compose pause
+
+# Unpause services
+docker compose unpause
+
+# View running processes
+docker compose top
+
+# List images used by services
+docker compose images
+
+# Validate and view compose configuration
+docker compose config
+
+# Scale a service
+docker compose scale <service>=<replicas>
+
+# Kill service containers
+docker compose kill
+
+# Remove stopped service containers
+docker compose rm -f
+
+$ service: docker compose ps --format '{{.Service}}' 2>/dev/null
+$ compose_file: echo -e "docker-compose.yml\ndocker-compose.yaml\ncompose.yml\ncompose.yaml"
+$ shell: echo -e "/bin/bash\n/bin/sh\nsh\nbash"
+$ replicas: echo -e "1\n2\n3\n5"
+
+% docker, system, management
+
+# Show Docker system information
+docker system info
+
+# Show disk usage
+docker system df
+
+# Show detailed disk usage
+docker system df -v
+
+# Remove all unused data (containers, networks, images)
+docker system prune -f
+
+# Remove all unused data including volumes
+docker system prune -a --volumes -f
+
+# Remove unused build cache
+docker builder prune -f
+
+# Remove all build cache
+docker builder prune -a -f
+
+# Get real-time events from server
+docker system events
+
+# Get events with filter
+docker system events --filter 'type=container'
+
+# Get events since specific time
+docker system events --since <time>
+
+# Show Docker version
+docker version
+
+# Show Docker info (short)
+docker info
+
+$ time: echo -e "1h\n30m\n24h"
+
+% docker, registry, authentication
+
+# Login to Docker Hub
+docker login
+
+# Login to specific registry
+docker login <registry>
+
+# Login with username
+docker login -u <username>
+
+# Login with username and password (stdin)
+echo <password> | docker login -u <username> --password-stdin
+
+# Logout from Docker Hub
+docker logout
+
+# Logout from specific registry
+docker logout <registry>
+
+# Search Docker Hub
+docker search <term>
+
+# Search official images only
+docker search --filter "is-official=true" <term>
+
+# Search with stars filter
+docker search --filter "stars=100" <term>
+
+# Limit search results
+docker search --limit <limit> <term>
+
+$ registry: echo -e "docker.io\nghcr.io\ngcr.io\necr.aws"
+$ limit: echo -e "10\n25\n50"
+
+% docker, buildx, multi-platform
+
+# Create a new builder instance
+docker buildx create --name <builder_name> --use
+
+# List builder instances
+docker buildx ls
+
+# Inspect current builder
+docker buildx inspect
+
+# Build for multiple platforms
+docker buildx build --platform <platforms> -t <image_name> <build_context>
+
+# Build and push multi-platform image
+docker buildx build --platform <platforms> -t <image_name> --push <build_context>
+
+# Build and load into local Docker
+docker buildx build --load -t <image_name> <build_context>
+
+# Remove builder instance
+docker buildx rm <builder_name>
+
+# Use specific builder
+docker buildx use <builder_name>
+
+$ builder_name: docker buildx ls --format '{{.Name}}' 2>/dev/null
+$ platforms: echo -e "linux/amd64,linux/arm64\nlinux/amd64\nlinux/arm64\nlinux/amd64,linux/arm64,linux/arm/v7"
+$ build_context: echo -e ".\n./docker"
+
+% docker, cleanup, maintenance
+
+# Remove all stopped containers
+docker container prune -f
+
+# Remove all unused images
+docker image prune -f
+
+# Remove all dangling images
+docker image prune -f
+
+# Remove all images including unused
+docker image prune -a -f
+
+# Remove all unused volumes
+docker volume prune -f
+
+# Remove all unused networks
+docker network prune -f
+
+# Remove all unused data
+docker system prune -f
+
+# Remove all unused data including volumes
+docker system prune -a --volumes -f
+
+# Remove images older than 24h
+docker image prune -a --filter "until=24h" -f
+
+# Stop all running containers
+docker stop $(docker ps -q)
+
+# Remove all containers
+docker rm $(docker ps -aq)
+
+# Remove all images
+docker rmi $(docker images -q)
+
+# Kill all running containers
+docker kill $(docker ps -q)
+
+% docker, debug, troubleshooting
+
+# Show container logs
+docker logs <container>
+
+# Follow logs in real-time
+docker logs -f <container>
+
+# Show logs with timestamps
+docker logs -t <container>
+
+# Show last N lines
+docker logs --tail <lines> <container>
+
+# Inspect container
+docker inspect <container>
+
+# Get container IP
+docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container>
+
+# Get container state
+docker inspect --format '{{.State.Status}}' <container>
+
+# Show running processes
+docker top <container>
+
+# Show resource usage
+docker stats <container>
+
+# Show filesystem changes
+docker diff <container>
+
+# Get shell in container
+docker exec -it <container> <shell>
+
+# Check container health
+docker inspect --format '{{.State.Health.Status}}' <container>
+
+# View container events
+docker events --filter 'container=<container>'
+
+$ container: docker ps -a --format '{{.Names}}\t{{.Status}}' 2>/dev/null --- --preview 'docker logs --tail 10 {1}'
+$ shell: echo -e "/bin/bash\n/bin/sh\nsh\nbash"
+$ lines: echo -e "50\n100\n200\n500"

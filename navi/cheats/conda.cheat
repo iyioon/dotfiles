@@ -1,0 +1,371 @@
+% conda, environment, create
+
+# Create a new environment with a specific name
+conda create --name <env_name>
+
+# Create a new environment with Python version
+conda create --name <env_name> python=<python_version>
+
+# Create a new environment with specific packages
+conda create --name <env_name> <packages>
+
+# Create environment at a specific path/prefix
+conda create --prefix <path>
+
+# Create environment from YAML file
+conda env create --file <yaml_file>
+
+# Create environment from YAML file with custom name
+conda env create --file <yaml_file> --name <env_name>
+
+# Clone an existing environment
+conda create --name <new_env_name> --clone <env>
+
+# Create environment without default packages
+conda create --name <env_name> --no-default-packages
+
+# Dry run - show what would be installed without creating
+conda create --name <env_name> <packages> --dry-run
+
+$ env_name: echo "myenv"
+$ python_version: echo -e "3.12\n3.11\n3.10\n3.9\n3.8"
+$ packages: echo "numpy pandas scipy"
+$ yaml_file: find . -maxdepth 3 -name "*.yml" -o -name "*.yaml" 2>/dev/null | head -10
+$ new_env_name: echo "myenv_clone"
+
+% conda, environment, activate
+
+# Activate an environment by name
+conda activate <env>
+
+# Deactivate current environment
+conda deactivate
+
+# Activate environment by path
+conda activate <path>
+
+% conda, environment, list
+
+# List all conda environments
+conda env list
+
+# List all environments (alternative)
+conda info --envs
+
+# List environments with JSON output
+conda env list --json
+
+% conda, environment, remove
+
+# Remove an environment by name
+conda env remove --name <env>
+
+# Remove an environment (alternative syntax)
+conda remove --name <env> --all
+
+# Remove environment without confirmation
+conda env remove --name <env> --yes
+
+% conda, environment, rename
+
+# Rename an environment
+conda rename --name <env> <new_name>
+
+$ new_name: echo "new_env_name"
+
+% conda, package, install
+
+# Install a package in current environment
+conda install <package_name>
+
+# Install a specific version of a package
+conda install <package_name>=<version>
+
+# Install package in a specific environment
+conda install --name <env> <package_name>
+
+# Install multiple packages
+conda install <packages>
+
+# Install from a specific channel
+conda install --channel <channel> <package_name>
+
+# Install from conda-forge
+conda install --channel conda-forge <package_name>
+
+# Install without dependencies
+conda install --no-deps <package_name>
+
+# Dry run - show what would be installed
+conda install <package_name> --dry-run
+
+# Install with strict channel priority
+conda install --strict-channel-priority <package_name>
+
+# Force reinstall a package
+conda install --force-reinstall <package_name>
+
+# Install and update dependencies
+conda install --update-deps <package_name>
+
+# Install without updating existing packages
+conda install --freeze-installed <package_name>
+
+$ package_name: echo "numpy"
+$ version: echo "1.24.0"
+$ channel: echo -e "conda-forge\ndefaults\nbioconda\npytorch"
+
+% conda, package, uninstall
+
+# Remove a package from current environment
+conda remove <package>
+
+# Remove package from specific environment
+conda remove --name <env> <package>
+
+# Remove multiple packages
+conda remove <packages>
+
+# Remove package without confirmation
+conda remove <package> --yes
+
+# Force remove without dependency checking
+conda remove <package> --force
+
+% conda, package, update
+
+# Update a specific package
+conda update <package>
+
+# Update all packages in current environment
+conda update --all
+
+# Update conda itself
+conda update conda
+
+# Update package in specific environment
+conda update --name <env> <package>
+
+# Update without confirmation
+conda update <package> --yes
+
+# Dry run - show what would be updated
+conda update <package> --dry-run
+
+# Update to specific version
+conda update <package_name>=<version>
+
+% conda, package, list
+
+# List installed packages in current environment
+conda list
+
+# List packages in specific environment
+conda list --name <env>
+
+# List packages matching a pattern
+conda list <pattern>
+
+# List packages with export format
+conda list --export
+
+# List packages as JSON
+conda list --json
+
+# Show package revisions
+conda list --revisions
+
+# List packages showing channel URLs
+conda list --show-channel-urls
+
+$ pattern: echo "numpy"
+
+% conda, package, search
+
+# Search for a package
+conda search <search_term>
+
+# Search with detailed info
+conda search <search_term> --info
+
+# Search in specific channel
+conda search --channel <channel> <search_term>
+
+# Search for specific version
+conda search '<search_term>>=<version>'
+
+# Search with JSON output
+conda search <search_term> --json
+
+# Search across all user environments
+conda search --envs <search_term>
+
+$ search_term: echo "numpy"
+
+% conda, export, import
+
+# Export current environment to YAML
+conda env export > environment.yml
+
+# Export environment to file
+conda env export --file <filename>
+
+# Export without build specifications
+conda env export --no-builds
+
+# Export only explicitly installed packages (from history)
+conda env export --from-history
+
+# Export ignoring channel information
+conda env export --ignore-channels
+
+# Export specific environment
+conda env export --name <env> > environment.yml
+
+# Export with specific format
+conda env export --format <format>
+
+# Update environment from YAML file
+conda env update --file <yaml_file>
+
+# Update environment with prune (remove packages not in file)
+conda env update --file <yaml_file> --prune
+
+$ filename: echo "environment.yml"
+$ format: echo -e "yaml\njson\nexplicit\nrequirements"
+
+% conda, channels, config
+
+# Show current channels
+conda config --show channels
+
+# Add a channel (prepend - highest priority)
+conda config --add channels <channel>
+
+# Add a channel (append - lowest priority)
+conda config --append channels <channel>
+
+# Remove a channel
+conda config --remove channels <channel>
+
+# Set strict channel priority
+conda config --set channel_priority strict
+
+# Set flexible channel priority
+conda config --set channel_priority flexible
+
+# Disable channel priority
+conda config --set channel_priority disabled
+
+% conda, info, config
+
+# Display conda information
+conda info
+
+# Display all configuration values
+conda config --show
+
+# Display specific configuration value
+conda config --show <key>
+
+# Show all configuration sources
+conda config --show-sources
+
+# Describe all configuration options
+conda config --describe
+
+# Describe specific configuration option
+conda config --describe <key>
+
+# Validate configuration
+conda config --validate
+
+# Set a configuration value
+conda config --set <key> <value>
+
+# Get a configuration value
+conda config --get <key>
+
+# Remove a configuration key
+conda config --remove-key <key>
+
+# Write default configuration to file
+conda config --write-default
+
+$ key: echo -e "channels\nchannel_priority\nauto_activate_base\nssl_verify\nenvs_dirs\npkgs_dirs"
+$ value: echo "true"
+
+% conda, clean
+
+# Remove unused packages and caches
+conda clean --all
+
+# Remove index cache
+conda clean --index-cache
+
+# Remove cached package tarballs
+conda clean --tarballs
+
+# Remove unused packages
+conda clean --packages
+
+# Remove log files
+conda clean --logfiles
+
+# Dry run - show what would be removed
+conda clean --all --dry-run
+
+# Force clean all package caches (dangerous)
+conda clean --force-pkgs-dirs
+
+# Clean without confirmation
+conda clean --all --yes
+
+% conda, run
+
+# Run a command in an environment
+conda run --name <env> <command>
+
+# Run command in environment at path
+conda run --prefix <path> <command>
+
+# Run Python script in environment
+conda run --name <env> python <script>
+
+$ command: echo "python --version"
+$ script: echo "script.py"
+
+% conda, compare
+
+# Compare environment with a YAML file
+conda compare <yaml_file>
+
+# Compare specific environment with file
+conda compare --name <env> <yaml_file>
+
+% conda, doctor
+
+# Check conda installation for issues
+conda doctor
+
+# Check specific environment
+conda doctor --name <env>
+
+% conda, init
+
+# Initialize conda for shell
+conda init
+
+# Initialize for specific shell
+conda init <shell>
+
+# Reverse conda initialization
+conda init --reverse
+
+$ shell: echo -e "bash\nzsh\nfish\npowershell\ncmd.exe"
+
+# Dynamic variable selectors
+$ env: conda env list --json 2>/dev/null | jq -r '.envs[]' | xargs -I {} basename {} 2>/dev/null || conda env list 2>/dev/null | awk 'NR>2 && $1!="" {print $1}'
+$ package: conda list --json 2>/dev/null | jq -r '.[].name' 2>/dev/null | head -50 || conda list 2>/dev/null | awk 'NR>3 {print $1}' | head -50
+$ path: echo "/path/to/env"
+$ packages: echo "numpy pandas matplotlib"

@@ -1,0 +1,723 @@
+% jq, json, basic-selection
+
+# Identity - pretty print JSON
+jq '.'
+
+# Select a field from an object
+jq '.<field>'
+
+# Select a nested field
+jq '.<field>.<nested>'
+
+# Select field with special characters or starting with digit
+jq '.["<field>"]'
+
+# Select first element of an array
+jq '.[0]'
+
+# Select last element of an array
+jq '.[-1]'
+
+# Select element at specific index
+jq '.[<index>]'
+
+# Iterate over all array elements
+jq '.[]'
+
+# Iterate over object values
+jq '.[]'
+
+# Array slice (elements from index 2 to 4)
+jq '.[2:4]'
+
+# Array slice from start to index
+jq '.[:<end_index>]'
+
+# Array slice from index to end
+jq '.[<start_index>:]'
+
+# Optional object index (no error if not object)
+jq '.<field>?'
+
+# Recursive descent - get all values
+jq '.. | .<field>?'
+
+$ field: echo "name"
+$ nested: echo "address"
+$ index: echo "0"
+$ start_index: echo "1"
+$ end_index: echo "3"
+
+% jq, json, filtering
+
+# Select elements where condition is true
+jq '.[] | select(.<field> == "<value>")'
+
+# Select elements where field contains substring
+jq '.[] | select(.<field> | contains("<substring>"))'
+
+# Select elements where field starts with
+jq '.[] | select(.<field> | startswith("<prefix>"))'
+
+# Select elements where field ends with
+jq '.[] | select(.<field> | endswith("<suffix>"))'
+
+# Select elements greater than value
+jq '.[] | select(.<field> > <number>)'
+
+# Select elements matching regex
+jq '.[] | select(.<field> | test("<regex>"))'
+
+# Select only objects
+jq '.[] | objects'
+
+# Select only arrays
+jq '.[] | arrays'
+
+# Select only strings
+jq '.[] | strings'
+
+# Select only numbers
+jq '.[] | numbers'
+
+# Select only booleans
+jq '.[] | booleans'
+
+# Select non-null values
+jq '.[] | values'
+
+# Check if object has a key
+jq 'has("<key>")'
+
+# Check if key exists in object
+jq '"<key>" | in(.)'
+
+# Filter array to keep items containing value
+jq '[.[] | select(. | contains("<value>"))]'
+
+# Map and transform array elements
+jq 'map(.<field>)'
+
+# Map with transformation
+jq 'map(. + 1)'
+
+# Map selecting specific fields
+jq 'map({<field1>, <field2>})'
+
+$ field: echo "name"
+$ value: echo "active"
+$ substring: echo "test"
+$ prefix: echo "pre"
+$ suffix: echo "suffix"
+$ number: echo "10"
+$ regex: echo "^[a-z]+$"
+$ key: echo "id"
+$ field1: echo "id"
+$ field2: echo "name"
+
+% jq, json, output-formatting
+
+# Raw output (no quotes on strings)
+jq -r '.<field>'
+
+# Compact output (single line)
+jq -c '.'
+
+# Sort object keys alphabetically
+jq -S '.'
+
+# Tab indentation instead of spaces
+jq --tab '.'
+
+# Custom indentation (n spaces)
+jq --indent <spaces> '.'
+
+# Raw input - treat input as strings not JSON
+jq -R '.'
+
+# Slurp - read all inputs into array
+jq -s '.'
+
+# Null input - don't read any input
+jq -n '<expression>'
+
+# Color output (force)
+jq -C '.'
+
+# Monochrome output (no color)
+jq -M '.'
+
+# ASCII output (escape non-ASCII)
+jq -a '.'
+
+# Join output without newlines
+jq -j '.<field>'
+
+# Exit status based on output (for scripting)
+jq -e '.<field>'
+
+$ field: echo "name"
+$ spaces: echo "4"
+$ expression: echo "{\"key\": \"value\"}"
+
+% jq, json, construction
+
+# Construct a new object
+jq '{<new_key>: .<old_key>}'
+
+# Construct object with same key name (shorthand)
+jq '{<field>}'
+
+# Construct object with multiple fields
+jq '{<field1>, <field2>}'
+
+# Construct object with computed key
+jq '{(.<key_field>): .<value_field>}'
+
+# Construct an array from values
+jq '[.<field1>, .<field2>]'
+
+# Collect all results into an array
+jq '[.[] | .<field>]'
+
+# Construct array with transformation
+jq '[.[] | {<field1>, <field2>}]'
+
+# Add new field to existing object
+jq '. + {<new_field>: "<value>"}'
+
+# Merge two objects
+jq '. * <other_object>'
+
+# Update a field value
+jq '.<field> = "<new_value>"'
+
+# Update nested field
+jq '.<field>.<nested> = "<new_value>"'
+
+# Update field with transformation
+jq '.<field> |= . + 1'
+
+# Delete a field
+jq 'del(.<field>)'
+
+# Convert object to key-value array
+jq 'to_entries'
+
+# Convert key-value array back to object
+jq 'from_entries'
+
+# Transform keys and values
+jq 'with_entries(.key = "prefix_" + .key)'
+
+$ new_key: echo "newName"
+$ old_key: echo "name"
+$ field: echo "name"
+$ field1: echo "id"
+$ field2: echo "name"
+$ key_field: echo "type"
+$ value_field: echo "data"
+$ new_field: echo "created"
+$ value: echo "new value"
+$ other_object: echo '{"extra": true}'
+$ nested: echo "child"
+$ new_value: echo "updated"
+
+% jq, json, string-operations
+
+# Split string by delimiter
+jq '.<field> | split("<delimiter>")'
+
+# Join array elements into string
+jq '.<array_field> | join("<delimiter>")'
+
+# Test if string matches regex
+jq '.<field> | test("<regex>")'
+
+# Case-insensitive regex test
+jq '.<field> | test("<regex>"; "i")'
+
+# Match regex and capture groups
+jq '.<field> | match("<regex>")'
+
+# Capture named groups
+jq '.<field> | capture("(?<name>[a-z]+)")'
+
+# Replace with regex (first occurrence)
+jq '.<field> | sub("<pattern>"; "<replacement>")'
+
+# Replace all occurrences
+jq '.<field> | gsub("<pattern>"; "<replacement>")'
+
+# String interpolation
+jq '"Name: \(.<field>)"'
+
+# Convert to uppercase
+jq '.<field> | ascii_upcase'
+
+# Convert to lowercase
+jq '.<field> | ascii_downcase'
+
+# Trim whitespace
+jq '.<field> | ltrimstr(" ") | rtrimstr(" ")'
+
+# Get string length
+jq '.<field> | length'
+
+# Check if string contains substring
+jq '.<field> | contains("<substring>")'
+
+# Check if string starts with prefix
+jq '.<field> | startswith("<prefix>")'
+
+# Check if string ends with suffix
+jq '.<field> | endswith("<suffix>")'
+
+# Slice a string
+jq '.<field>[<start>:<end>]'
+
+# Convert to string
+jq '.<field> | tostring'
+
+# Parse string as JSON
+jq '.<field> | fromjson'
+
+# Convert to JSON string
+jq '.<field> | tojson'
+
+# Explode string to codepoints
+jq '.<field> | explode'
+
+# Implode codepoints to string
+jq '.<field> | implode'
+
+$ field: echo "name"
+$ array_field: echo "tags"
+$ delimiter: echo ","
+$ regex: echo "[0-9]+"
+$ pattern: echo "old"
+$ replacement: echo "new"
+$ substring: echo "test"
+$ prefix: echo "http"
+$ suffix: echo ".json"
+$ start: echo "0"
+$ end: echo "5"
+
+% jq, json, math-comparison
+
+# Add all numbers in array
+jq 'add'
+
+# Add with initial value (handles empty)
+jq 'add // 0'
+
+# Get length of array or string
+jq 'length'
+
+# Get minimum value
+jq 'min'
+
+# Get maximum value
+jq 'max'
+
+# Get minimum by field
+jq 'min_by(.<field>)'
+
+# Get maximum by field
+jq 'max_by(.<field>)'
+
+# Sort array
+jq 'sort'
+
+# Sort array by field
+jq 'sort_by(.<field>)'
+
+# Sort in reverse order
+jq 'sort | reverse'
+
+# Get unique values
+jq 'unique'
+
+# Get unique values by field
+jq 'unique_by(.<field>)'
+
+# Group by field
+jq 'group_by(.<field>)'
+
+# Flatten nested arrays
+jq 'flatten'
+
+# Flatten to specific depth
+jq 'flatten(<depth>)'
+
+# Reverse array
+jq 'reverse'
+
+# Get first n elements
+jq '.[:n]'
+
+# Get last n elements
+jq '.[-n:]'
+
+# Get first element (or null)
+jq 'first'
+
+# Get last element (or null)
+jq 'last'
+
+# Get nth element
+jq 'nth(<n>)'
+
+# Count elements
+jq 'length'
+
+# Sum of field values
+jq '[.[].price] | add'
+
+# Average of values
+jq 'add / length'
+
+# Round number
+jq '.<field> | round'
+
+# Floor number
+jq '.<field> | floor'
+
+# Ceiling number
+jq '.<field> | ceil'
+
+# Square root
+jq '.<field> | sqrt'
+
+# Absolute value
+jq '.<field> | fabs'
+
+# Check equality
+jq '.<field> == "<value>"'
+
+# Check inequality
+jq '.<field> != "<value>"'
+
+# Less than
+jq '.<field> < <number>'
+
+# Greater than
+jq '.<field> > <number>'
+
+# Logical AND
+jq '.<field1> and .<field2>'
+
+# Logical OR
+jq '.<field1> or .<field2>'
+
+# Logical NOT
+jq '.<field> | not'
+
+$ field: echo "value"
+$ field1: echo "active"
+$ field2: echo "enabled"
+$ depth: echo "1"
+$ n: echo "5"
+$ value: echo "test"
+$ number: echo "10"
+
+% jq, json, conditionals
+
+# If-then-else
+jq 'if .<field> then "<true_value>" else "<false_value>" end'
+
+# If-then-elif-else
+jq 'if .<field> == "a" then 1 elif .<field> == "b" then 2 else 3 end'
+
+# Alternative operator (default value if null/false)
+jq '.<field> // "<default>"'
+
+# Empty (suppress output)
+jq 'if .<field> then . else empty end'
+
+# Error handling with try-catch
+jq 'try .<field> catch "<error_value>"'
+
+# Optional - suppress errors
+jq '.<field>?'
+
+# Type checking
+jq 'if type == "array" then "is array" else "not array" end'
+
+# Null check
+jq 'if .<field> == null then "missing" else .<field> end'
+
+# Get type of value
+jq 'type'
+
+# Check if array contains value
+jq 'any(.[]; . == "<value>")'
+
+# Check if all match condition
+jq 'all(.[]; . > 0)'
+
+# Reduce array to single value
+jq 'reduce .[] as $item (0; . + $item)'
+
+# Limit results to first n
+jq '[limit(<n>; .[])]'
+
+# Range of numbers
+jq '[range(<n>)]'
+
+# Range with start and end
+jq '[range(<start>; <end>)]'
+
+$ field: echo "active"
+$ true_value: echo "yes"
+$ false_value: echo "no"
+$ default: echo "N/A"
+$ error_value: echo "error"
+$ value: echo "target"
+$ n: echo "10"
+$ start: echo "1"
+$ end: echo "10"
+
+% jq, json, multiple-filters
+
+# Pipe filters together
+jq '.<field> | .<nested>'
+
+# Multiple outputs (comma)
+jq '.<field1>, .<field2>'
+
+# Collect multiple outputs into array
+jq '[.<field1>, .<field2>]'
+
+# Apply multiple filters to same input
+jq '.<field1> as $a | .<field2> as $b | {a: $a, b: $b}'
+
+# Variable assignment
+jq '. as $data | $data.<field>'
+
+# Process each element
+jq '.[] | .<field>'
+
+# Update all elements
+jq '.[].field = "new"'
+
+# Get keys of object
+jq 'keys'
+
+# Get keys unsorted
+jq 'keys_unsorted'
+
+# Get values of object
+jq '[.[]]'
+
+# Zip two arrays
+jq 'transpose'
+
+# Add to array
+jq '. + ["<new_item>"]'
+
+# Prepend to array
+jq '["<new_item>"] + .'
+
+# Check if array contains
+jq 'any(. == "<value>")'
+
+# Index of item in array
+jq 'index("<value>")'
+
+# Indices of all matches
+jq 'indices("<value>")'
+
+# Inside check (substring or subarray)
+jq 'inside(<container>)'
+
+# Contains check
+jq 'contains(<item>)'
+
+$ field: echo "data"
+$ nested: echo "value"
+$ field1: echo "name"
+$ field2: echo "id"
+$ new_item: echo "item"
+$ value: echo "target"
+$ container: echo '["a","b","c"]'
+$ item: echo '["a"]'
+
+% jq, json, file-input
+
+# Read JSON from file
+jq '.' <file>
+
+# Read multiple JSON files
+jq '.' <file1> <file2>
+
+# Read from stdin
+echo '<json>' | jq '.'
+
+# Read and process file
+jq '.<field>' <file>
+
+# Slurp multiple files into array
+jq -s '.' <file1> <file2>
+
+# Process file with raw string output
+jq -r '.<field>' <file>
+
+# Read file as argument
+jq --slurpfile data <file> '.'
+
+# Read raw file as string argument
+jq --rawfile content <file> '$content'
+
+# Pass string argument
+jq --arg name "<value>" '.<field> + $name'
+
+# Pass JSON argument
+jq --argjson data '<json>' '. + $data'
+
+# Multiple files to array
+jq -s '.' <files>
+
+$ file: find . -name "*.json" -type f 2>/dev/null | head -10
+$ file1: find . -name "*.json" -type f 2>/dev/null | head -1
+$ file2: find . -name "*.json" -type f 2>/dev/null | tail -1
+$ json: echo '{"key": "value"}'
+$ field: echo "name"
+$ value: echo "test"
+$ files: find . -name "*.json" -type f 2>/dev/null | head -5 | tr '\n' ' '
+
+% jq, json, curl-api
+
+# Parse API response
+curl -s '<url>' | jq '.'
+
+# Extract field from API response
+curl -s '<url>' | jq '.<field>'
+
+# Extract array of values from API
+curl -s '<url>' | jq '.[].name'
+
+# Get first item from API list
+curl -s '<url>' | jq '.[0]'
+
+# Filter API results
+curl -s '<url>' | jq '[.[] | select(.<field> == "<value>")]'
+
+# Count items from API
+curl -s '<url>' | jq 'length'
+
+# Get specific fields from API array
+curl -s '<url>' | jq '.[] | {id, name}'
+
+# Transform API response
+curl -s '<url>' | jq '{total: length, items: [.[].name]}'
+
+# API with authentication
+curl -s -H "Authorization: Bearer <token>" '<url>' | jq '.'
+
+# POST request with JSON body and parse response
+curl -s -X POST -H "Content-Type: application/json" -d '<body>' '<url>' | jq '.'
+
+# Handle paginated API
+curl -s '<url>?page=<page>' | jq '.data'
+
+# Extract from nested API response
+curl -s '<url>' | jq '.data.items[] | {id: .id, name: .attributes.name}'
+
+# Check API response for errors
+curl -s '<url>' | jq 'if .error then .error else .data end'
+
+# Get headers as JSON (with curl verbose)
+curl -sI '<url>' 2>&1 | jq -Rs 'split("\n") | map(select(contains(":"))) | map(split(": ") | {(.[0]): .[1]}) | add'
+
+$ url: echo "https://api.example.com/data"
+$ field: echo "name"
+$ value: echo "active"
+$ token: echo "your_token_here"
+$ body: echo '{"key": "value"}'
+$ page: echo "1"
+
+% jq, json, practical-examples
+
+# Pretty print JSON file
+jq '.' <file>
+
+# Minify JSON (compact)
+jq -c '.' <file>
+
+# Extract all unique values of a field
+jq '[.[].type] | unique' <file>
+
+# Count occurrences by field value
+jq 'group_by(.type) | map({type: .[0].type, count: length})' <file>
+
+# Filter and transform
+jq '[.[] | select(.active == true) | {name, email}]' <file>
+
+# Sum numeric field
+jq '[.[].price] | add' <file>
+
+# Calculate average
+jq '[.[].score] | add / length' <file>
+
+# Find max by field
+jq 'max_by(.score)' <file>
+
+# Sort by field descending
+jq 'sort_by(.date) | reverse' <file>
+
+# Merge arrays from objects
+jq '[.[].tags] | add | unique' <file>
+
+# Rename keys
+jq '.[] | {user_id: .id, user_name: .name}' <file>
+
+# Convert array to object (keyed by id)
+jq 'INDEX(.id)' <file>
+
+# CSV-like output
+jq -r '.[] | [.id, .name, .email] | @csv' <file>
+
+# TSV output
+jq -r '.[] | [.id, .name, .email] | @tsv' <file>
+
+# Create URI encoded string
+jq -r '@uri' <<< '"hello world"'
+
+# Base64 encode
+jq -r '@base64' <<< '"hello world"'
+
+# Base64 decode
+jq -r '@base64d' <<< '"aGVsbG8gd29ybGQ="'
+
+# HTML escape
+jq -r '@html' <<< '"<script>alert(1)</script>"'
+
+# JSON escape for shell
+jq -r '@sh' <<< '"hello world"'
+
+# Create JSON from variables
+jq -n --arg name "<name>" --arg email "<email>" '{name: $name, email: $email}'
+
+# Update JSON file in place (using sponge)
+jq '.<field> = "<value>"' <file> | sponge <file>
+
+# Diff two JSON files
+diff <(jq -S '.' <file1>) <(jq -S '.' <file2>)
+
+# Validate JSON syntax
+jq empty <file> && echo "Valid JSON" || echo "Invalid JSON"
+
+# Get all paths in JSON
+jq '[paths]' <file>
+
+# Get leaf paths only
+jq '[paths(scalars)]' <file>
+
+$ file: find . -name "*.json" -type f 2>/dev/null | head -10
+$ file1: find . -name "*.json" -type f 2>/dev/null | head -1
+$ file2: find . -name "*.json" -type f 2>/dev/null | tail -1
+$ name: echo "John"
+$ email: echo "john@example.com"
+$ field: echo "updated"
+$ value: echo "true"

@@ -1,0 +1,468 @@
+% curl, http, api, requests
+
+# Simple GET request
+curl <url>
+
+# GET request with verbose output
+curl -v <url>
+
+# GET request with only response headers
+curl -I <url>
+
+# GET request with response headers included in output
+curl -i <url>
+
+# GET request following redirects
+curl -L <url>
+
+# GET request silently (no progress meter)
+curl -s <url>
+
+# GET request with maximum time limit
+curl -m <seconds> <url>
+
+# GET request with connection timeout
+curl --connect-timeout <seconds> <url>
+
+% curl, http, methods
+
+# POST request with data
+curl -X POST -d '<data>' <url>
+
+# POST request (shorthand, -d implies POST)
+curl -d '<data>' <url>
+
+# PUT request with data
+curl -X PUT -d '<data>' <url>
+
+# DELETE request
+curl -X DELETE <url>
+
+# PATCH request with data
+curl -X PATCH -d '<data>' <url>
+
+# HEAD request (get headers only)
+curl -I <url>
+
+# OPTIONS request
+curl -X OPTIONS <url>
+
+$ data: echo "key=value"
+
+% curl, http, headers
+
+# Set custom header
+curl -H '<header>' <url>
+
+# Set User-Agent header
+curl -A '<user_agent>' <url>
+
+# Set Referer header
+curl -e '<referer>' <url>
+
+# Set Accept header
+curl -H 'Accept: <accept_type>' <url>
+
+# Set Content-Type header
+curl -H 'Content-Type: <content_type>' <url>
+
+# Set multiple headers
+curl -H '<header1>' -H '<header2>' <url>
+
+# Remove a header (set to empty)
+curl -H '<header_name>:' <url>
+
+$ header: echo -e "Authorization: Bearer token\nX-Custom-Header: value\nCache-Control: no-cache"
+$ user_agent: echo -e "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\ncurl/8.0.0\nMyApp/1.0"
+$ accept_type: echo -e "application/json\ntext/html\napplication/xml\n*/*"
+$ content_type: echo -e "application/json\napplication/x-www-form-urlencoded\nmultipart/form-data\ntext/plain"
+
+% curl, http, auth, authentication
+
+# Basic authentication
+curl -u '<username>:<password>' <url>
+
+# Basic authentication (prompt for password)
+curl -u '<username>' <url>
+
+# Bearer token authentication
+curl -H 'Authorization: Bearer <token>' <url>
+
+# Digest authentication
+curl --digest -u '<username>:<password>' <url>
+
+# NTLM authentication
+curl --ntlm -u '<username>:<password>' <url>
+
+# OAuth2 bearer token
+curl --oauth2-bearer '<token>' <url>
+
+# Negotiate (SPNEGO) authentication
+curl --negotiate -u : <url>
+
+# Use .netrc file for credentials
+curl -n <url>
+
+# AWS Signature Version 4
+curl --aws-sigv4 'aws:amz:<region>:<service>' -u '<access_key>:<secret_key>' <url>
+
+$ region: echo -e "us-east-1\nus-west-2\neu-west-1"
+$ service: echo -e "s3\nexecute-api\nes"
+
+% curl, http, json, api
+
+# POST JSON data
+curl -X POST -H 'Content-Type: application/json' -d '<json_data>' <url>
+
+# POST JSON data using --json shorthand (curl 7.82.0+)
+curl --json '<json_data>' <url>
+
+# POST JSON from file
+curl -X POST -H 'Content-Type: application/json' -d @<json_file> <url>
+
+# POST JSON with pretty response (pipe to jq)
+curl -s -X POST -H 'Content-Type: application/json' -d '<json_data>' <url> | jq
+
+# GET JSON with Accept header
+curl -H 'Accept: application/json' <url>
+
+# PUT JSON data
+curl -X PUT -H 'Content-Type: application/json' -d '<json_data>' <url>
+
+# PATCH JSON data
+curl -X PATCH -H 'Content-Type: application/json' -d '<json_data>' <url>
+
+$ json_data: echo '{"key": "value"}'
+$ json_file: find . -name "*.json" -type f 2>/dev/null | head -10
+
+% curl, http, form, data
+
+# POST form data (URL-encoded)
+curl -d '<form_data>' <url>
+
+# POST form data with explicit content type
+curl -d '<form_data>' -H 'Content-Type: application/x-www-form-urlencoded' <url>
+
+# POST multiple form fields
+curl -d '<field1>' -d '<field2>' <url>
+
+# POST data from file (strips newlines)
+curl -d @<file> <url>
+
+# POST binary data from file (preserves newlines)
+curl --data-binary @<file> <url>
+
+# POST URL-encoded data
+curl --data-urlencode '<data>' <url>
+
+# POST raw data (no @ interpretation)
+curl --data-raw '<data>' <url>
+
+# Multipart form data
+curl -F '<field>=<value>' <url>
+
+# Multipart form with file upload
+curl -F '<field>=@<file>' <url>
+
+# Multipart form with file and content type
+curl -F '<field>=@<file>;type=<mime_type>' <url>
+
+# Multipart form with custom filename
+curl -F '<field>=@<file>;filename=<custom_name>' <url>
+
+$ form_data: echo "name=value&other=data"
+$ field1: echo "name=John"
+$ field2: echo "email=john@example.com"
+$ mime_type: echo -e "image/png\napplication/pdf\ntext/plain\napplication/octet-stream"
+
+% curl, download, output, file
+
+# Save output to file
+curl -o <output_file> <url>
+
+# Save with remote filename
+curl -O <url>
+
+# Save multiple files with remote filenames
+curl -O <url1> -O <url2>
+
+# Resume interrupted download
+curl -C - -O <url>
+
+# Resume download from specific offset
+curl -C <offset> -o <output_file> <url>
+
+# Download with progress bar
+curl -# -O <url>
+
+# Download silently
+curl -s -O <url>
+
+# Download to specific directory
+curl --output-dir <directory> -O <url>
+
+# Create directories if needed
+curl --create-dirs -o <path>/<output_file> <url>
+
+# Limit download speed
+curl --limit-rate <rate> -O <url>
+
+# Download only if newer than local file
+curl -z <local_file> -O <url>
+
+# Skip download if file exists
+curl --no-clobber -O <url>
+
+$ rate: echo -e "100K\n1M\n500K"
+$ offset: echo "0"
+
+% curl, ssl, tls, https
+
+# Skip SSL certificate verification (insecure)
+curl -k <url>
+
+# Skip SSL verification (long form)
+curl --insecure <url>
+
+# Specify CA certificate file
+curl --cacert <ca_cert> <url>
+
+# Specify CA certificate directory
+curl --capath <ca_dir> <url>
+
+# Use client certificate
+curl --cert <client_cert> <url>
+
+# Use client certificate with password
+curl --cert <client_cert>:<password> <url>
+
+# Use client certificate key
+curl --cert <client_cert> --key <key_file> <url>
+
+# Use client certificate with key type
+curl --cert <client_cert> --key <key_file> --key-type <key_type> <url>
+
+# Specify SSL/TLS version (TLS 1.2)
+curl --tlsv1.2 <url>
+
+# Specify SSL/TLS version (TLS 1.3)
+curl --tlsv1.3 <url>
+
+# Force HTTP/2
+curl --http2 <url>
+
+# Force HTTP/3
+curl --http3 <url>
+
+# Check certificate status (OCSP stapling)
+curl --cert-status <url>
+
+# Use system CA store (native)
+curl --ca-native <url>
+
+$ key_type: echo -e "PEM\nDER\nENG"
+
+% curl, debug, verbose, trace
+
+# Verbose output
+curl -v <url>
+
+# More verbose (trace ASCII)
+curl --trace-ascii <trace_file> <url>
+
+# Full trace output
+curl --trace <trace_file> <url>
+
+# Trace with timestamps
+curl --trace-time --trace-ascii <trace_file> <url>
+
+# Show only errors
+curl -sS <url>
+
+# Fail silently on HTTP errors
+curl -f <url>
+
+# Fail with body on HTTP errors
+curl --fail-with-body <url>
+
+# Write output info to file
+curl -w '<format>' -o /dev/null -s <url>
+
+# Show HTTP response code only
+curl -w '%{http_code}' -o /dev/null -s <url>
+
+# Show timing information
+curl -w 'DNS: %{time_namelookup}s\nConnect: %{time_connect}s\nTLS: %{time_appconnect}s\nTotal: %{time_total}s\n' -o /dev/null -s <url>
+
+# Show all timing details
+curl -w '@<format_file>' -o /dev/null -s <url>
+
+# Include response headers in output
+curl -i <url>
+
+# Dump headers to file
+curl -D <header_file> <url>
+
+$ format: echo -e "%{http_code}\n%{time_total}\n%{size_download}"
+$ trace_file: echo "curl_trace.txt"
+$ header_file: echo "headers.txt"
+
+% curl, cookies
+
+# Send cookies
+curl -b '<cookies>' <url>
+
+# Send cookies from file
+curl -b <cookie_file> <url>
+
+# Save cookies to file
+curl -c <cookie_file> <url>
+
+# Load and save cookies (session persistence)
+curl -b <cookie_file> -c <cookie_file> <url>
+
+# Ignore session cookies when loading
+curl -j -b <cookie_file> <url>
+
+# Enable cookie engine without initial cookies
+curl -b "" <url>
+
+$ cookies: echo "name=value; other=data"
+$ cookie_file: echo "cookies.txt"
+
+% curl, proxy
+
+# Use HTTP proxy
+curl -x <proxy> <url>
+
+# Use HTTPS proxy
+curl -x https://<proxy> <url>
+
+# Use SOCKS5 proxy
+curl --socks5 <proxy> <url>
+
+# Use SOCKS5 proxy with hostname resolution
+curl --socks5-hostname <proxy> <url>
+
+# Use SOCKS4 proxy
+curl --socks4 <proxy> <url>
+
+# Proxy with authentication
+curl -x <proxy> -U '<proxy_user>:<proxy_pass>' <url>
+
+# Set proxy via environment variable
+curl --proxy-env <url>
+
+# Bypass proxy for specific hosts
+curl -x <proxy> --noproxy '<hosts>' <url>
+
+# Use system proxy settings
+curl --proxy-env <url>
+
+$ proxy: echo -e "http://proxy.example.com:8080\nlocalhost:8080\n127.0.0.1:1080"
+$ hosts: echo -e "localhost,127.0.0.1\n*.local\nexample.com"
+
+% curl, upload, ftp, sftp
+
+# Upload file via HTTP PUT
+curl -T <file> <url>
+
+# Upload file via FTP
+curl -T <file> ftp://<ftp_server>/<path>/
+
+# Upload with FTP authentication
+curl -T <file> -u '<username>:<password>' ftp://<ftp_server>/<path>/
+
+# Upload via SFTP
+curl -T <file> -u '<username>:<password>' sftp://<sftp_server>/<path>/
+
+# Upload via SFTP with key
+curl -T <file> --key <key_file> sftp://<sftp_server>/<path>/
+
+# Upload multiple files
+curl -T '{<file1>,<file2>}' ftp://<ftp_server>/
+
+# Append to remote file (FTP)
+curl -T <file> --append ftp://<ftp_server>/<path>/
+
+# Create remote directories (FTP)
+curl --ftp-create-dirs -T <file> ftp://<ftp_server>/<new_path>/<file>
+
+% curl, advanced, retry, parallel
+
+# Retry on transient errors
+curl --retry <count> <url>
+
+# Retry on all errors
+curl --retry-all-errors --retry <count> <url>
+
+# Retry with delay
+curl --retry <count> --retry-delay <seconds> <url>
+
+# Retry with max time
+curl --retry <count> --retry-max-time <seconds> <url>
+
+# Parallel downloads
+curl -Z -O <url1> -O <url2> -O <url3>
+
+# Parallel with max connections
+curl -Z --parallel-max <max> -O <url1> -O <url2>
+
+# Rate limiting requests
+curl --rate <rate> <url>
+
+# Compressed transfer
+curl --compressed <url>
+
+# Use config file
+curl -K <config_file> <url>
+
+# Resolve hostname to specific IP
+curl --resolve <host>:<port>:<ip> <url>
+
+# Connect to different host/port
+curl --connect-to <host1>:<port1>:<host2>:<port2> <url>
+
+$ count: echo -e "3\n5\n10"
+$ max: echo -e "5\n10\n20"
+$ rate: echo -e "10/m\n5/s\n100/h"
+
+% curl, examples, practical
+
+# Test API endpoint with JSON
+curl -s -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer <token>' -d '{"key": "value"}' <url> | jq
+
+# Download file with progress and resume support
+curl -L -C - -# -O <url>
+
+# Check if URL is reachable (returns HTTP code)
+curl -s -o /dev/null -w '%{http_code}' <url>
+
+# Benchmark URL response time
+curl -s -o /dev/null -w 'Total: %{time_total}s\n' <url>
+
+# Download with retry and timeout
+curl -L --retry 3 --retry-delay 5 -m 30 -O <url>
+
+# Send webhook notification
+curl -X POST -H 'Content-Type: application/json' -d '{"text": "<message>"}' <webhook_url>
+
+# Test CORS preflight
+curl -X OPTIONS -H 'Origin: <origin>' -H 'Access-Control-Request-Method: POST' -i <url>
+
+# Get public IP address
+curl -s https://api.ipify.org
+
+# Test SSL certificate
+curl -vI --stderr - <url> | grep -A 6 'Server certificate'
+
+# Upload file to S3 presigned URL
+curl -X PUT -T <file> '<presigned_url>'
+
+# GraphQL query
+curl -X POST -H 'Content-Type: application/json' -d '{"query": "<graphql_query>"}' <url>
+
+$ message: echo "Hello from curl"
+$ origin: echo "https://example.com"
+$ graphql_query: echo "{ viewer { login } }"
+$ webhook_url: echo "https://hooks.slack.com/services/xxx"

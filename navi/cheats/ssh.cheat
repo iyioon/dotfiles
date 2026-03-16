@@ -1,0 +1,390 @@
+% ssh, connection
+
+# Connect to remote host
+ssh <user>@<host>
+
+# Connect to remote host on specific port
+ssh -p <port> <user>@<host>
+
+# Connect using specific identity file (private key)
+ssh -i <identity_file> <user>@<host>
+
+# Connect with verbose output for debugging
+ssh -v <user>@<host>
+
+# Connect with maximum verbosity (debug level 3)
+ssh -vvv <user>@<host>
+
+# Connect and run a single command
+ssh <user>@<host> '<command>'
+
+# Connect with X11 forwarding enabled
+ssh -X <user>@<host>
+
+# Connect with trusted X11 forwarding (less secure, more compatible)
+ssh -Y <user>@<host>
+
+# Connect with compression enabled
+ssh -C <user>@<host>
+
+# Connect using IPv4 only
+ssh -4 <user>@<host>
+
+# Connect using IPv6 only
+ssh -6 <user>@<host>
+
+# Connect via jump host (ProxyJump)
+ssh -J <jump_host> <user>@<host>
+
+# Connect with agent forwarding enabled
+ssh -A <user>@<host>
+
+# Connect with specific config file
+ssh -F <config_file> <user>@<host>
+
+$ identity_file: find ~/.ssh -type f -name "id_*" ! -name "*.pub" 2>/dev/null
+$ config_file: echo -e "$HOME/.ssh/config\n/etc/ssh/ssh_config"
+
+% ssh, keys, keygen
+
+# Generate Ed25519 key (recommended, default)
+ssh-keygen -t ed25519 -C "<comment>"
+
+# Generate Ed25519 key with custom filename
+ssh-keygen -t ed25519 -f <output_file> -C "<comment>"
+
+# Generate RSA key (4096 bits)
+ssh-keygen -t rsa -b 4096 -C "<comment>"
+
+# Generate ECDSA key
+ssh-keygen -t ecdsa -b 521 -C "<comment>"
+
+# Generate key with no passphrase (for automation)
+ssh-keygen -t ed25519 -f <output_file> -N "" -C "<comment>"
+
+# Change passphrase on existing key
+ssh-keygen -p -f <key_file>
+
+# Show fingerprint of a key (SHA256)
+ssh-keygen -l -f <key_file>
+
+# Show fingerprint of a key (MD5)
+ssh-keygen -l -E md5 -f <key_file>
+
+# Show visual ASCII art of key fingerprint
+ssh-keygen -lv -f <key_file>
+
+# Convert public key to different format (RFC4716)
+ssh-keygen -e -f <key_file>
+
+# Derive public key from private key
+ssh-keygen -y -f <private_key>
+
+# Change comment on existing key
+ssh-keygen -c -f <key_file> -C "<new_comment>"
+
+$ key_file: find ~/.ssh -type f \( -name "id_*" -o -name "*.pub" \) 2>/dev/null
+$ private_key: find ~/.ssh -type f -name "id_*" ! -name "*.pub" 2>/dev/null
+$ output_file: echo "$HOME/.ssh/id_ed25519_new"
+
+% ssh, keys, copy
+
+# Copy public key to remote host (recommended method)
+ssh-copy-id <user>@<host>
+
+# Copy specific key to remote host
+ssh-copy-id -i <public_key> <user>@<host>
+
+# Copy key to remote host on specific port
+ssh-copy-id -p <port> <user>@<host>
+
+# Copy key with dry run (show what would be done)
+ssh-copy-id -n <user>@<host>
+
+# Copy key forcing use of ssh (not sftp)
+ssh-copy-id -o PreferredAuthentications=password <user>@<host>
+
+$ public_key: find ~/.ssh -type f -name "*.pub" 2>/dev/null
+
+% ssh, agent
+
+# Start ssh-agent and set environment variables (bash)
+eval "$(ssh-agent -s)"
+
+# Start ssh-agent and set environment variables (csh)
+eval "$(ssh-agent -c)"
+
+# Add default keys to agent
+ssh-add
+
+# Add specific key to agent
+ssh-add <private_key>
+
+# Add key with specific lifetime (in seconds)
+ssh-add -t <lifetime> <private_key>
+
+# List fingerprints of all keys in agent
+ssh-add -l
+
+# List public keys of all keys in agent
+ssh-add -L
+
+# Remove specific key from agent
+ssh-add -d <private_key>
+
+# Remove all keys from agent
+ssh-add -D
+
+# Lock agent with password
+ssh-add -x
+
+# Unlock agent
+ssh-add -X
+
+# Load resident keys from FIDO authenticator
+ssh-add -K
+
+# Kill current agent
+ssh-agent -k
+
+$ private_key: find ~/.ssh -type f -name "id_*" ! -name "*.pub" 2>/dev/null
+$ lifetime: echo -e "3600\n86400\n604800"
+
+% ssh, tunneling, port-forwarding
+
+# Local port forwarding (access remote service locally)
+ssh -L <local_port>:<remote_host>:<remote_port> <user>@<ssh_host>
+
+# Local port forwarding with bind address
+ssh -L <bind_address>:<local_port>:<remote_host>:<remote_port> <user>@<ssh_host>
+
+# Remote port forwarding (expose local service remotely)
+ssh -R <remote_port>:<local_host>:<local_port> <user>@<ssh_host>
+
+# Remote port forwarding with remote bind address
+ssh -R <bind_address>:<remote_port>:<local_host>:<local_port> <user>@<ssh_host>
+
+# Dynamic SOCKS proxy (SOCKS4/SOCKS5)
+ssh -D <local_port> <user>@<ssh_host>
+
+# Dynamic SOCKS proxy with bind address
+ssh -D <bind_address>:<local_port> <user>@<ssh_host>
+
+# Port forward without executing remote command
+ssh -N -L <local_port>:<remote_host>:<remote_port> <user>@<ssh_host>
+
+# Port forward in background
+ssh -f -N -L <local_port>:<remote_host>:<remote_port> <user>@<ssh_host>
+
+# Port forward with gateway ports (allow external connections)
+ssh -g -L <local_port>:<remote_host>:<remote_port> <user>@<ssh_host>
+
+# Create a tunnel and keep it alive
+ssh -o ServerAliveInterval=60 -N -L <local_port>:<remote_host>:<remote_port> <user>@<ssh_host>
+
+$ bind_address: echo -e "localhost\n0.0.0.0\n127.0.0.1"
+$ local_port: echo -e "8080\n3000\n5432\n3306"
+$ remote_port: echo -e "80\n443\n5432\n3306"
+
+% ssh, config
+
+# Test SSH config and show what would be used for a host
+ssh -G <host>
+
+# Use specific config file
+ssh -F <config_file> <host>
+
+# Override config option on command line
+ssh -o "<option>=<value>" <user>@<host>
+
+# Common useful SSH config options
+echo "Host *
+  ServerAliveInterval 60
+  ServerAliveCountMax 3
+  AddKeysToAgent yes
+  IdentitiesOnly yes"
+
+# Strict host key checking modes
+echo -e "StrictHostKeyChecking=yes\nStrictHostKeyChecking=no\nStrictHostKeyChecking=ask"
+
+$ config_file: echo -e "$HOME/.ssh/config\n/etc/ssh/ssh_config"
+$ option: echo -e "StrictHostKeyChecking\nUserKnownHostsFile\nConnectTimeout\nServerAliveInterval\nIdentityFile\nProxyJump"
+
+% ssh, known_hosts
+
+# Search for host in known_hosts
+ssh-keygen -F <hostname>
+
+# Remove host from known_hosts
+ssh-keygen -R <hostname>
+
+# Remove host on specific port from known_hosts
+ssh-keygen -R "[<hostname>]:<port>"
+
+# Hash all hostnames in known_hosts file
+ssh-keygen -H -f ~/.ssh/known_hosts
+
+# Show known_hosts fingerprints with visual art
+ssh-keygen -lv -f ~/.ssh/known_hosts
+
+# Generate SSHFP DNS records for a key
+ssh-keygen -r <hostname> -f <key_file>
+
+# Scan host and get its public keys
+ssh-keyscan <hostname>
+
+# Scan host on specific port
+ssh-keyscan -p <port> <hostname>
+
+# Scan host for specific key type
+ssh-keyscan -t <key_type> <hostname>
+
+$ key_type: echo -e "ed25519\nrsa\necdsa"
+$ key_file: echo "/etc/ssh/ssh_host_ed25519_key.pub"
+
+% scp, copy
+
+# Copy local file to remote host
+scp <local_file> <user>@<host>:<remote_path>
+
+# Copy remote file to local
+scp <user>@<host>:<remote_file> <local_path>
+
+# Copy directory recursively to remote
+scp -r <local_dir> <user>@<host>:<remote_path>
+
+# Copy directory recursively from remote
+scp -r <user>@<host>:<remote_dir> <local_path>
+
+# Copy with specific port
+scp -P <port> <local_file> <user>@<host>:<remote_path>
+
+# Copy with specific identity file
+scp -i <identity_file> <local_file> <user>@<host>:<remote_path>
+
+# Copy preserving file attributes (mode, times)
+scp -p <local_file> <user>@<host>:<remote_path>
+
+# Copy with compression
+scp -C <local_file> <user>@<host>:<remote_path>
+
+# Copy with bandwidth limit (Kbit/s)
+scp -l <limit_kbps> <local_file> <user>@<host>:<remote_path>
+
+# Copy in quiet mode (no progress)
+scp -q <local_file> <user>@<host>:<remote_path>
+
+# Copy between two remote hosts via local
+scp -3 <user>@<host1>:<file> <user>@<host2>:<path>
+
+# Copy via jump host
+scp -J <jump_host> <local_file> <user>@<host>:<remote_path>
+
+# Copy using legacy SCP protocol (instead of SFTP)
+scp -O <local_file> <user>@<host>:<remote_path>
+
+$ identity_file: find ~/.ssh -type f -name "id_*" ! -name "*.pub" 2>/dev/null
+$ limit_kbps: echo -e "1000\n5000\n10000"
+
+% rsync, sync
+
+# Basic sync (archive mode: recursive, preserve permissions/times/links/etc)
+rsync -av <source> <destination>
+
+# Sync to remote host over SSH
+rsync -av <source> <user>@<host>:<remote_path>
+
+# Sync from remote host over SSH
+rsync -av <user>@<host>:<remote_path> <local_path>
+
+# Sync with progress display
+rsync -av --progress <source> <destination>
+
+# Sync with human-readable progress and stats
+rsync -avh --progress <source> <destination>
+
+# Sync with overall progress (rsync 3.1+)
+rsync -av --info=progress2 <source> <destination>
+
+# Dry run (show what would be transferred)
+rsync -avn <source> <destination>
+
+# Dry run with itemized changes
+rsync -avni <source> <destination>
+
+# Sync and delete files not in source
+rsync -av --delete <source> <destination>
+
+# Sync and delete excluded files from destination
+rsync -av --delete-excluded <source> <destination>
+
+# Sync with compression
+rsync -avz <source> <destination>
+
+# Sync over SSH with custom port
+rsync -av -e "ssh -p <port>" <source> <user>@<host>:<remote_path>
+
+# Sync over SSH with specific identity file
+rsync -av -e "ssh -i <identity_file>" <source> <user>@<host>:<remote_path>
+
+$ identity_file: find ~/.ssh -type f -name "id_*" ! -name "*.pub" 2>/dev/null
+
+% rsync, advanced
+
+# Sync excluding files/patterns
+rsync -av --exclude='<pattern>' <source> <destination>
+
+# Sync excluding multiple patterns
+rsync -av --exclude='*.log' --exclude='*.tmp' --exclude='.git' <source> <destination>
+
+# Sync with exclude patterns from file
+rsync -av --exclude-from=<exclude_file> <source> <destination>
+
+# Sync only specific file types (include pattern)
+rsync -av --include='*.txt' --exclude='*' <source> <destination>
+
+# Sync with bandwidth limit (KBytes/sec)
+rsync -av --bwlimit=<limit_kbps> <source> <destination>
+
+# Sync keeping partial files (for resuming interrupted transfers)
+rsync -av --partial <source> <destination>
+
+# Sync with partial and progress combined
+rsync -avP <source> <destination>
+
+# Sync with checksum comparison (slower, more accurate)
+rsync -avc <source> <destination>
+
+# Sync updating only newer files
+rsync -avu <source> <destination>
+
+# Sync preserving hard links
+rsync -avH <source> <destination>
+
+# Sync preserving ACLs
+rsync -avA <source> <destination>
+
+# Sync preserving extended attributes
+rsync -avX <source> <destination>
+
+# Sync with sparse file handling
+rsync -avS <source> <destination>
+
+# Sync removing source files after transfer
+rsync -av --remove-source-files <source> <destination>
+
+# Sync with maximum file size limit
+rsync -av --max-size=<size> <source> <destination>
+
+# Sync with minimum file size limit
+rsync -av --min-size=<size> <source> <destination>
+
+# Sync files from a list file
+rsync -av --files-from=<list_file> <source_base> <destination>
+
+# Backup with link-dest (incremental backup using hard links)
+rsync -av --link-dest=<previous_backup> <source> <current_backup>
+
+$ limit_kbps: echo -e "1000\n5000\n10000"
+$ size: echo -e "100K\n10M\n1G"
+$ pattern: echo -e "*.log\n*.tmp\n.git\nnode_modules\n__pycache__"

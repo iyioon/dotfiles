@@ -1,0 +1,596 @@
+% git, stash
+
+# Stash changes with a message
+git stash push -m "<message>"
+
+# Stash changes including untracked files
+git stash push -u -m "<message>"
+
+# Stash changes including untracked and ignored files
+git stash push -a -m "<message>"
+
+# Stash only staged changes
+git stash push -S -m "<message>"
+
+# Interactively select hunks to stash
+git stash push -p
+
+# List all stashes
+git stash list
+
+# Show stash contents
+git stash show <stash>
+
+# Show stash contents with diff
+git stash show -p <stash>
+
+# Apply most recent stash (keep in stash list)
+git stash apply
+
+# Apply specific stash (keep in stash list)
+git stash apply <stash>
+
+# Apply stash and restore index state
+git stash apply --index <stash>
+
+# Pop most recent stash (remove from stash list)
+git stash pop
+
+# Pop specific stash
+git stash pop <stash>
+
+# Drop a specific stash
+git stash drop <stash>
+
+# Clear all stashes
+git stash clear
+
+# Create a branch from a stash
+git stash branch <branch_name> <stash>
+
+$ stash: git stash list 2>/dev/null | cut -d: -f1 || echo "stash@{0}"
+
+% git, rebase
+
+# Rebase current branch onto another branch
+git rebase <branch>
+
+# Interactive rebase for last N commits
+git rebase -i HEAD~<number>
+
+# Interactive rebase onto a branch
+git rebase -i <branch>
+
+# Rebase onto a specific commit
+git rebase --onto <newbase> <oldbase> <branch>
+
+# Continue rebase after resolving conflicts
+git rebase --continue
+
+# Abort rebase and return to original state
+git rebase --abort
+
+# Skip current commit during rebase
+git rebase --skip
+
+# Autosquash fixup/squash commits during interactive rebase
+git rebase -i --autosquash <branch>
+
+# Execute a command after each commit during rebase
+git rebase -i --exec "<shell_command>" <branch>
+
+# Rebase and preserve merge commits
+git rebase --rebase-merges <branch>
+
+# Update refs during rebase
+git rebase --update-refs <branch>
+
+$ branch: git branch -a --format='%(refname:short)' 2>/dev/null
+
+% git, cherry-pick
+
+# Cherry-pick a commit
+git cherry-pick <commit>
+
+# Cherry-pick and add reference to original commit
+git cherry-pick -x <commit>
+
+# Cherry-pick without committing (stage only)
+git cherry-pick -n <commit>
+
+# Cherry-pick a range of commits
+git cherry-pick <start_commit>^..<end_commit>
+
+# Cherry-pick a merge commit (specify parent)
+git cherry-pick -m <parent_number> <commit>
+
+# Continue cherry-pick after resolving conflicts
+git cherry-pick --continue
+
+# Abort cherry-pick
+git cherry-pick --abort
+
+# Skip current commit during cherry-pick
+git cherry-pick --skip
+
+$ commit: git log --oneline -20 2>/dev/null | awk '{print $1}'
+
+% git, reflog
+
+# Show reflog for HEAD
+git reflog
+
+# Show reflog for a specific ref
+git reflog show <ref>
+
+# Show reflog with dates
+git reflog --date=relative
+
+# Show reflog with full commit info
+git reflog show --all
+
+# Recover a deleted branch using reflog
+git checkout -b <branch_name> <reflog_entry>
+
+# Find lost commits in reflog
+git reflog | grep -i "<search_term>"
+
+# Expire old reflog entries
+git reflog expire --expire=<time> --all
+
+$ ref: git branch -a --format='%(refname:short)' 2>/dev/null
+$ reflog_entry: git reflog --format='%h %gd %gs' 2>/dev/null | head -20 | awk '{print $2}'
+
+% git, bisect
+
+# Start bisect session
+git bisect start
+
+# Mark current commit as bad
+git bisect bad
+
+# Mark current commit as good
+git bisect good
+
+# Mark a specific commit as bad
+git bisect bad <commit>
+
+# Mark a specific commit as good
+git bisect good <commit>
+
+# Start bisect with known good and bad commits
+git bisect start <bad_commit> <good_commit>
+
+# Skip current commit during bisect
+git bisect skip
+
+# End bisect session and return to original HEAD
+git bisect reset
+
+# Reset to a specific commit after bisect
+git bisect reset <commit>
+
+# Automate bisect with a test script
+git bisect run <script>
+
+# Show bisect log
+git bisect log
+
+# Replay a bisect session
+git bisect replay <logfile>
+
+# Visualize remaining commits to test
+git bisect visualize
+
+% git, reset
+
+# Soft reset - move HEAD, keep staged and working directory
+git reset --soft <commit>
+
+# Mixed reset (default) - move HEAD, unstage changes, keep working directory
+git reset <commit>
+
+# Hard reset - move HEAD, discard staged and working directory changes
+git reset --hard <commit>
+
+# Reset to previous commit (keep changes staged)
+git reset --soft HEAD~1
+
+# Reset to previous commit (unstage changes)
+git reset HEAD~1
+
+# Reset to previous commit (discard all changes)
+git reset --hard HEAD~1
+
+# Unstage a file
+git reset HEAD <file>
+
+# Unstage all files
+git reset HEAD
+
+# Reset to match remote branch
+git reset --hard <remote>/<branch>
+
+# Keep reset - like hard but keeps uncommitted changes if safe
+git reset --keep <commit>
+
+# Merge reset - like hard but keeps uncommitted changes if safe
+git reset --merge <commit>
+
+$ file: git diff --cached --name-only 2>/dev/null
+$ remote: git remote 2>/dev/null
+
+% git, clean
+
+# Show what would be removed (dry run)
+git clean -n
+
+# Remove untracked files
+git clean -f
+
+# Remove untracked files and directories
+git clean -fd
+
+# Remove untracked and ignored files
+git clean -fx
+
+# Remove only ignored files
+git clean -fX
+
+# Interactive clean
+git clean -i
+
+# Remove untracked files and directories (dry run)
+git clean -nd
+
+# Remove untracked files in a specific path
+git clean -f <path>
+
+% git, worktree
+
+# List all worktrees
+git worktree list
+
+# Add a new worktree with a new branch
+git worktree add <path> -b <new_branch>
+
+# Add a new worktree for existing branch
+git worktree add <path> <branch>
+
+# Add a detached worktree at a commit
+git worktree add --detach <path> <commit>
+
+# Remove a worktree
+git worktree remove <worktree>
+
+# Force remove a worktree with uncommitted changes
+git worktree remove --force <worktree>
+
+# Move a worktree to a new location
+git worktree move <worktree> <new_path>
+
+# Lock a worktree to prevent pruning
+git worktree lock <worktree>
+
+# Unlock a worktree
+git worktree unlock <worktree>
+
+# Prune stale worktree info
+git worktree prune
+
+# Repair worktree admin files
+git worktree repair
+
+$ worktree: git worktree list --porcelain 2>/dev/null | grep '^worktree' | cut -d' ' -f2
+
+% git, blame
+
+# Show who changed each line of a file
+git blame <file>
+
+# Blame specific lines of a file
+git blame -L <start>,<end> <file>
+
+# Blame ignoring whitespace changes
+git blame -w <file>
+
+# Blame detecting moved/copied lines within a file
+git blame -M <file>
+
+# Blame detecting lines moved from other files
+git blame -C <file>
+
+# Blame detecting lines from any commit
+git blame -C -C -C <file>
+
+# Blame showing email instead of name
+git blame -e <file>
+
+# Blame with date shown
+git blame --date=short <file>
+
+# Blame ignoring specific revisions
+git blame --ignore-rev <commit> <file>
+
+# Blame ignoring revisions from file
+git blame --ignore-revs-file .git-blame-ignore-revs <file>
+
+# Show change statistics for each commit
+git blame --line-porcelain <file> | grep "^author " | sort | uniq -c | sort -rn
+
+$ file: git ls-files 2>/dev/null
+
+% git, log, search
+
+# Search commit messages
+git log --grep="<pattern>"
+
+# Search commit messages (case insensitive)
+git log -i --grep="<pattern>"
+
+# Search for changes adding/removing a string
+git log -S "<string>"
+
+# Search for changes matching a regex
+git log -G "<regex>"
+
+# Show commits that changed a specific file
+git log --follow -- <file>
+
+# Show commits by author
+git log --author="<author>"
+
+# Show commits in date range
+git log --since="<date>" --until="<date>"
+
+# Show commits with diff
+git log -p
+
+# Show commits with stats
+git log --stat
+
+# Show one-line commit log with graph
+git log --oneline --graph --all
+
+# Show commits not yet pushed
+git log <remote>/<branch>..HEAD
+
+# Show commits on branch not in main
+git log main..<branch>
+
+# Find all commits where a function was changed
+git log -p -S "<function_name>" -- "*.py"
+
+% git, diff
+
+# Show unstaged changes
+git diff
+
+# Show staged changes
+git diff --cached
+
+# Show all changes (staged and unstaged)
+git diff HEAD
+
+# Show changes between two commits
+git diff <commit1> <commit2>
+
+# Show changes between branches
+git diff <branch1>..<branch2>
+
+# Show only file names that changed
+git diff --name-only
+
+# Show file names with status (A/M/D)
+git diff --name-status
+
+# Show diff stats
+git diff --stat
+
+# Show word-level diff
+git diff --word-diff
+
+# Show colored word-level diff
+git diff --color-words
+
+# Show diff for specific file
+git diff -- <file>
+
+# Show diff ignoring whitespace
+git diff -w
+
+# Show diff ignoring blank lines
+git diff --ignore-blank-lines
+
+# Show diff with context lines
+git diff -U<number>
+
+# Compare file between branches
+git diff <branch1>:<file> <branch2>:<file>
+
+% git, remote
+
+# List remotes
+git remote -v
+
+# Add a remote
+git remote add <name> <url>
+
+# Remove a remote
+git remote remove <name>
+
+# Rename a remote
+git remote rename <old_name> <new_name>
+
+# Show remote details
+git remote show <remote>
+
+# Get remote URL
+git remote get-url <remote>
+
+# Set remote URL
+git remote set-url <remote> <url>
+
+# Add push URL to remote
+git remote set-url --add --push <remote> <url>
+
+# Prune stale remote tracking branches
+git remote prune <remote>
+
+# Update all remotes
+git remote update
+
+# Update a specific remote
+git remote update <remote>
+
+# Fetch from all remotes
+git fetch --all
+
+# Fetch and prune
+git fetch -p
+
+% git, tag
+
+# List tags
+git tag
+
+# List tags with pattern
+git tag -l "<pattern>"
+
+# Create lightweight tag
+git tag <tag_name>
+
+# Create annotated tag
+git tag -a <tag_name> -m "<message>"
+
+# Create signed tag
+git tag -s <tag_name> -m "<message>"
+
+# Tag a specific commit
+git tag -a <tag_name> <commit> -m "<message>"
+
+# Delete local tag
+git tag -d <tag>
+
+# Delete remote tag
+git push <remote> --delete <tag>
+
+# Push a tag to remote
+git push <remote> <tag>
+
+# Push all tags to remote
+git push <remote> --tags
+
+# Push only annotated tags
+git push <remote> --follow-tags
+
+# Verify signed tag
+git tag -v <tag>
+
+# Show tag details
+git show <tag>
+
+# Checkout a tag
+git checkout <tag>
+
+$ tag: git tag -l 2>/dev/null
+
+% git, submodule
+
+# Add a submodule
+git submodule add <repository> <path>
+
+# Initialize submodules
+git submodule init
+
+# Update submodules to recorded commits
+git submodule update
+
+# Initialize and update submodules
+git submodule update --init
+
+# Initialize and update nested submodules
+git submodule update --init --recursive
+
+# Update submodules to latest remote commits
+git submodule update --remote
+
+# Update a specific submodule to latest
+git submodule update --remote <path>
+
+# Show submodule status
+git submodule status
+
+# Show submodule status recursively
+git submodule status --recursive
+
+# Execute command in each submodule
+git submodule foreach "<command>"
+
+# Execute command recursively in submodules
+git submodule foreach --recursive "<command>"
+
+# Sync submodule URLs from .gitmodules
+git submodule sync
+
+# Sync recursively
+git submodule sync --recursive
+
+# Deinitialize a submodule
+git submodule deinit <path>
+
+# Deinitialize and remove submodule completely
+git submodule deinit <path> && git rm <path>
+
+# Clone repository with submodules
+git clone --recurse-submodules <repository>
+
+# Pull and update submodules
+git pull --recurse-submodules
+
+% git, advanced
+
+# Create a fixup commit for interactive rebase
+git commit --fixup=<commit>
+
+# Create a squash commit for interactive rebase
+git commit --squash=<commit>
+
+# Amend last commit without changing message
+git commit --amend --no-edit
+
+# Amend last commit with new message
+git commit --amend -m "<message>"
+
+# Show branches containing a commit
+git branch --contains <commit>
+
+# Show branches merged into current branch
+git branch --merged
+
+# Show branches not merged into current branch
+git branch --no-merged
+
+# List commits between two refs
+git rev-list <ref1>..<ref2>
+
+# Count commits between two refs
+git rev-list --count <ref1>..<ref2>
+
+# Find common ancestor of two branches
+git merge-base <branch1> <branch2>
+
+# Show file at specific revision
+git show <commit>:<file>
+
+# Archive a branch
+git archive --format=zip <branch> > archive.zip
+
+# Verify repository integrity
+git fsck
+
+# Optimize repository
+git gc
+
+# Aggressive optimization
+git gc --aggressive
