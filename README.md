@@ -79,6 +79,7 @@ To customize the prompt yourself, run `p10k configure`.
 | Plugin | What it does | Usage |
 |--------|--------------|-------|
 | **git** | Git aliases and completions | `gst` (status), `gco` (checkout), `gp` (push) |
+| **vi-mode** | Vim-style command line editing with mode-aware cursor | `Esc` to normal mode, `i` to insert mode |
 | **web-search** | Search from terminal | `google query`, `ddg query`, `youtube query` |
 | **zsh-autosuggestions** | Fish-like suggestions | Type, then `→` to accept |
 | **zsh-syntax-highlighting** | Command coloring | Valid commands = green, errors = red |
