@@ -30,7 +30,7 @@ git clone https://github.com/iyioon/dotfiles.git ~/dotfiles
 ### 3. Install dependencies
 
 ```bash
-brew install zsh fzf zoxide atuin navi ranger
+brew install zsh fzf zoxide atuin navi ranger thefuck
 ```
 
 ### 4. Install Oh My Zsh
@@ -86,6 +86,7 @@ To customize the prompt yourself, run `p10k configure`.
 | **fzf** | Fuzzy finder | `Ctrl-T` files, `Alt-C` cd |
 | **zoxide** | Smart directory jumper | `cd foo` jumps to most-used match |
 | **atuin** | Enhanced history | `Ctrl-R` searchable history with context, filters, optional sync |
+| **thefuck** | Suggests a corrected command after failure | Run `fuck` to retry with fixes |
 | **navi** | Interactive cheatsheet | `Ctrl-G` command palette for browsing and executing commands |
 | **ranger** | Terminal file manager | `ranger` to launch, VI keybindings, `q` to quit |
 
