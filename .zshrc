@@ -79,6 +79,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  vi-mode
   web-search
   zsh-autosuggestions
   zsh-syntax-highlighting
@@ -94,6 +95,13 @@ ZSH_HIGHLIGHT_STYLES[builtin]='fg=#5eff6c'           # builtin command - green
 ZSH_HIGHLIGHT_STYLES[alias]='fg=#5eff6c'             # alias - green
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff6e5e'     # invalid command - red
 ZSH_HIGHLIGHT_STYLES[path]='fg=#5ea1ff,underline'    # valid path - blue
+
+# Oh My Zsh vi-mode plugin settings.
+# Show vi mode through cursor shape changes.
+VI_MODE_SET_CURSOR=true
+VI_MODE_CURSOR_NORMAL=2
+VI_MODE_CURSOR_INSERT=6
+VI_MODE_CURSOR_VISUAL=2
 
 source $ZSH/oh-my-zsh.sh
 
@@ -131,19 +139,18 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export PATH="/Users/jason/.local/bin:$PATH"
 
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/jason/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/iyioon/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/jason/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/jason/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/iyioon/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/iyioon/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/jason/anaconda3/bin:$PATH"
+        export PATH="/home/iyioon/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -209,3 +216,4 @@ bindkey '^g' _navi_widget
 #   fi
 # fi
 
+export PATH="$HOME/.local/bin:$PATH"
